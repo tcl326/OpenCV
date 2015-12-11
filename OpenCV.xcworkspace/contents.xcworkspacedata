@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:GlobalMotionEstimation/GlobalMotionEstimation.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:ColorSegmentation/ColorSegmentation.xcodeproj">
    </FileRef>
    <FileRef
