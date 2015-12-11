@@ -1,0 +1,302 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3F93C9B11C19DD9F007322F3 /* JenksNaturalBreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F93C9AE1C19DD9F007322F3 /* JenksNaturalBreak.cpp */; };
+		3FD6E08D1C0E5458003786F9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FD6E08C1C0E5458003786F9 /* main.cpp */; };
+		3FD6E09D1C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD6E0971C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib */; };
+		3FD6E09E1C0E547E003786F9 /* libopencv_video.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD6E0981C0E547E003786F9 /* libopencv_video.2.4.12.dylib */; };
+		3FD6E09F1C0E547E003786F9 /* libopencv_imgproc.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD6E0991C0E547E003786F9 /* libopencv_imgproc.2.4.12.dylib */; };
+		3FD6E0A01C0E547E003786F9 /* libopencv_highgui.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD6E09A1C0E547E003786F9 /* libopencv_highgui.2.4.12.dylib */; };
+		3FD6E0A11C0E547E003786F9 /* libopencv_core.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD6E09B1C0E547E003786F9 /* libopencv_core.2.4.12.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3FD6E0871C0E5458003786F9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3F93C9AE1C19DD9F007322F3 /* JenksNaturalBreak.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JenksNaturalBreak.cpp; sourceTree = "<group>"; };
+		3F93C9AF1C19DD9F007322F3 /* JenksNaturalBreak.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JenksNaturalBreak.hpp; sourceTree = "<group>"; };
+		3F93C9B01C19DD9F007322F3 /* Miniball.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Miniball.hpp; sourceTree = "<group>"; };
+		3F93C9B21C19F2C5007322F3 /* MovieBoat.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = MovieBoat.mp4; sourceTree = "<group>"; };
+		3FD6E0891C0E5458003786F9 /* RiverSegmentation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RiverSegmentation; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FD6E08C1C0E5458003786F9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		3FD6E0971C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_gpu.2.4.12.dylib; path = /usr/local/Cellar/opencv/2.4.12/lib/libopencv_gpu.2.4.12.dylib; sourceTree = "<absolute>"; };
+		3FD6E0981C0E547E003786F9 /* libopencv_video.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_video.2.4.12.dylib; path = /usr/local/Cellar/opencv/2.4.12/lib/libopencv_video.2.4.12.dylib; sourceTree = "<absolute>"; };
+		3FD6E0991C0E547E003786F9 /* libopencv_imgproc.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_imgproc.2.4.12.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.12/lib/libopencv_imgproc.2.4.12.dylib; sourceTree = "<group>"; };
+		3FD6E09A1C0E547E003786F9 /* libopencv_highgui.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.12.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.12/lib/libopencv_highgui.2.4.12.dylib; sourceTree = "<group>"; };
+		3FD6E09B1C0E547E003786F9 /* libopencv_core.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.12.dylib; path = ../../../../usr/local/Cellar/opencv/2.4.12/lib/libopencv_core.2.4.12.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3FD6E0861C0E5458003786F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FD6E0A11C0E547E003786F9 /* libopencv_core.2.4.12.dylib in Frameworks */,
+				3FD6E09D1C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib in Frameworks */,
+				3FD6E0A01C0E547E003786F9 /* libopencv_highgui.2.4.12.dylib in Frameworks */,
+				3FD6E09E1C0E547E003786F9 /* libopencv_video.2.4.12.dylib in Frameworks */,
+				3FD6E09F1C0E547E003786F9 /* libopencv_imgproc.2.4.12.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3FD6E0801C0E5458003786F9 = {
+			isa = PBXGroup;
+			children = (
+				3FD6E09C1C0E547E003786F9 /* OpenCV Frameworks */,
+				3FD6E08B1C0E5458003786F9 /* RiverSegmentation */,
+				3FD6E08A1C0E5458003786F9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3FD6E08A1C0E5458003786F9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3FD6E0891C0E5458003786F9 /* RiverSegmentation */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3FD6E08B1C0E5458003786F9 /* RiverSegmentation */ = {
+			isa = PBXGroup;
+			children = (
+				3F93C9B21C19F2C5007322F3 /* MovieBoat.mp4 */,
+				3FD6E08C1C0E5458003786F9 /* main.cpp */,
+				3F93C9AE1C19DD9F007322F3 /* JenksNaturalBreak.cpp */,
+				3F93C9AF1C19DD9F007322F3 /* JenksNaturalBreak.hpp */,
+				3F93C9B01C19DD9F007322F3 /* Miniball.hpp */,
+			);
+			path = RiverSegmentation;
+			sourceTree = "<group>";
+		};
+		3FD6E09C1C0E547E003786F9 /* OpenCV Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3FD6E0971C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib */,
+				3FD6E0981C0E547E003786F9 /* libopencv_video.2.4.12.dylib */,
+				3FD6E0991C0E547E003786F9 /* libopencv_imgproc.2.4.12.dylib */,
+				3FD6E09A1C0E547E003786F9 /* libopencv_highgui.2.4.12.dylib */,
+				3FD6E09B1C0E547E003786F9 /* libopencv_core.2.4.12.dylib */,
+			);
+			name = "OpenCV Frameworks";
+			path = "/Users/student/Desktop/RetrieveFrame/../CV Canal";
+			sourceTree = "<absolute>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3FD6E0881C0E5458003786F9 /* RiverSegmentation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FD6E0901C0E5458003786F9 /* Build configuration list for PBXNativeTarget "RiverSegmentation" */;
+			buildPhases = (
+				3FD6E0851C0E5458003786F9 /* Sources */,
+				3FD6E0861C0E5458003786F9 /* Frameworks */,
+				3FD6E0871C0E5458003786F9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RiverSegmentation;
+			productName = RiverSegmentation;
+			productReference = 3FD6E0891C0E5458003786F9 /* RiverSegmentation */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3FD6E0811C0E5458003786F9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = Student;
+				TargetAttributes = {
+					3FD6E0881C0E5458003786F9 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 3FD6E0841C0E5458003786F9 /* Build configuration list for PBXProject "RiverSegmentation" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3FD6E0801C0E5458003786F9;
+			productRefGroup = 3FD6E08A1C0E5458003786F9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3FD6E0881C0E5458003786F9 /* RiverSegmentation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3FD6E0851C0E5458003786F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FD6E08D1C0E5458003786F9 /* main.cpp in Sources */,
+				3F93C9B11C19DD9F007322F3 /* JenksNaturalBreak.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3FD6E08E1C0E5458003786F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3FD6E08F1C0E5458003786F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3FD6E0911C0E5458003786F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/opencv/2.4.12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3FD6E0921C0E5458003786F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/opencv/2.4.12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3FD6E0841C0E5458003786F9 /* Build configuration list for PBXProject "RiverSegmentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FD6E08E1C0E5458003786F9 /* Debug */,
+				3FD6E08F1C0E5458003786F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3FD6E0901C0E5458003786F9 /* Build configuration list for PBXNativeTarget "RiverSegmentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FD6E0911C0E5458003786F9 /* Debug */,
+				3FD6E0921C0E5458003786F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3FD6E0811C0E5458003786F9 /* Project object */;
+}
