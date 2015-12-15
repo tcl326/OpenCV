@@ -2,6 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:RiverSegmentation/RiverSegmentation.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ReadWriteVideo/ReadWriteVideo.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:GlobalMotionEstimation/GlobalMotionEstimation.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:ColorSegmentation/ColorSegmentation.xcodeproj">
    </FileRef>
    <FileRef

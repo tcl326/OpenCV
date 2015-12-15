@@ -1,6 +1,9 @@
 #include "opencv2/video/tracking.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
+// Video write
+#include <opencv2/imgproc/imgproc.hpp>
+
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/core.hpp>
 #include <vector>
 #include <iostream>
 #include <ctype.h>
@@ -87,10 +90,12 @@ double calcLength(Point2f p1, Point2f p2)
     return length;
 }
 
+
 int main(int argc, const char* argv[])
 {
+
     char* movie;
-    movie = "/Users/student/Desktop/CV Canal/GP058145.m4v";
+    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
     TermCriteria termcrit(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03);
     Size subPixWinSize(10,10), winSize(31,31);
@@ -114,6 +119,24 @@ int main(int argc, const char* argv[])
     }
     
     namedWindow( "Entropy Based River Segmentation", 1 );
+    
+    VideoWriter outputVideo;
+    bool writeMovie = true; //write the output video to the place defined by filename
+    if (writeMovie)
+    {
+        char* filename;
+        filename = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoatOutput.mp4";
+
+        Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
+                      (int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
+        outputVideo.open(filename, CV_FOURCC('8','B','P','S'), 30, S);
+        if (!outputVideo.isOpened())
+        {
+            cout  << "Could not open the output video for write: " << filename << endl;
+            return -1;
+        }
+        
+    }
     
     Mat gray, prevGray, image;
     vector<Point2f> points[2];
@@ -183,7 +206,7 @@ int main(int argc, const char* argv[])
             
             if (c > 3)
             {
-                naturalBreaks = JenksNaturalBreak(entropy,4);
+                naturalBreaks = JenksNaturalBreak(entropy,3);
                 cout << naturalBreaks[0] << ", " << naturalBreaks[1] << ", "<< naturalBreaks[2]<< "," << naturalBreaks[3] << endl;
                 
                 for (int p = 0; p<entropy.size(); ++p)
@@ -204,11 +227,11 @@ int main(int argc, const char* argv[])
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                     }
 
-                    else if (entropy[p] < naturalBreaks[3])
-                    {
+                    //else if (entropy[p] < naturalBreaks[3])
+                    //{
                         //Draw Purple Circles
-                        circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
-                    }
+                    //    circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
+                    //}
                     else
                     {
                         // Draw Yellow Circles
@@ -275,6 +298,10 @@ int main(int argc, const char* argv[])
         std::swap(points[1], points[0]);
         cv::swap(prevGray, gray);
         
+        if (writeMovie)
+        {
+            outputVideo.write(image);
+        }
         
     }
     return 0;

@@ -1,15 +1,5 @@
-//
-//  main.cpp
-//  GlobalMotionEstimation
-//
-//  Created by Student on 12/11/15.
-//  Copyright © 2015 Student. All rights reserved.
-//
-
-#include <iostream>
-
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
-    return 0;
-}
+CvPoint2D32f p0, p1;
+vector<Point2f,allocator<Point2f>> ax, by;
+ax.push_back(Point2f(2,2));
+by.push_back(Point2f(3,2));
+Mat t = estimateGlobalMotionLeastSquares(ax,by,AFFINE,0);
