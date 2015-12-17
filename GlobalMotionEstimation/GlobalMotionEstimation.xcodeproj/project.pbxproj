@@ -12,6 +12,7 @@
 		3F27AB271C1B72D4002DC485 /* libopencv_highgui.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F27AB221C1B72D4002DC485 /* libopencv_highgui.2.4.12.dylib */; };
 		3F27AB281C1B72D4002DC485 /* libopencv_core.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F27AB231C1B72D4002DC485 /* libopencv_core.2.4.12.dylib */; };
 		3FD469A21C1B5C2000319BE8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FD469A11C1B5C2000319BE8 /* main.cpp */; };
+		3FFA32CB1C20905900A8A06A /* libopencv_videostab.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFA32CA1C20905900A8A06A /* libopencv_videostab.2.4.12.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,7 @@
 		3F27AB231C1B72D4002DC485 /* libopencv_core.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.12.dylib; path = "/Users/student/Desktop/CV Canal/../../../../usr/local/Cellar/opencv/2.4.12/lib/libopencv_core.2.4.12.dylib"; sourceTree = "<absolute>"; };
 		3FD4699E1C1B5C2000319BE8 /* GlobalMotionEstimation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GlobalMotionEstimation; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD469A11C1B5C2000319BE8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		3FFA32CA1C20905900A8A06A /* libopencv_videostab.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_videostab.2.4.12.dylib; path = /usr/local/Cellar/opencv/2.4.12/lib/libopencv_videostab.2.4.12.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F27AB251C1B72D4002DC485 /* libopencv_video.2.4.12.dylib in Frameworks */,
+				3FFA32CB1C20905900A8A06A /* libopencv_videostab.2.4.12.dylib in Frameworks */,
 				3F27AB261C1B72D4002DC485 /* libopencv_imgproc.2.4.12.dylib in Frameworks */,
 				3F27AB281C1B72D4002DC485 /* libopencv_core.2.4.12.dylib in Frameworks */,
 				3F27AB271C1B72D4002DC485 /* libopencv_highgui.2.4.12.dylib in Frameworks */,
@@ -57,6 +60,7 @@
 				3F27AB211C1B72D4002DC485 /* libopencv_imgproc.2.4.12.dylib */,
 				3F27AB221C1B72D4002DC485 /* libopencv_highgui.2.4.12.dylib */,
 				3F27AB231C1B72D4002DC485 /* libopencv_core.2.4.12.dylib */,
+				3FFA32CA1C20905900A8A06A /* libopencv_videostab.2.4.12.dylib */,
 			);
 			name = "OpenCV Frameworks";
 			path = "/Users/student/Desktop/RetrieveFrame/../CV Canal";
