@@ -19,6 +19,20 @@
 using namespace cv;
 using namespace std;
 
+void transformPerspective (std::vector<cv::Point2f> original, std::vector<cv::Point2f>& dst, cv::Mat m)
+{
+    Point2f temp;
+    float x;
+    float y;
+    for (int i = 0; i<original.size(); i++)
+    {
+        x = original[i].x;
+        y = original[i].y;
+        temp = Point2f((m.at<float>(0,0)*x+m.at<float>(0,1)*y+m.at<float>(0, 2))/(m.at<float>(2,0)*x+m.at<float>(2,1)*y+m.at<float>(2, 2)),(m.at<float>(1,0)*x+m.at<float>(1,1)*y+m.at<float>(1, 2))/(m.at<float>(2,0)*x+m.at<float>(2,1)*y+m.at<float>(2, 2)));
+        dst.push_back(temp);
+    }
+}
+
 Point2f point;
 
 // calculate the minimum radius that encloses all the points using the MiniBall Software(V3.0)
