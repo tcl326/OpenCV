@@ -14,8 +14,9 @@ using namespace std;
 using namespace cv;
 using namespace cv::videostab;
 
-void transformPerspective (std::vector<cv::Point2f> original, std::vector<cv::Point2f>& dst, cv::Mat m)
+void transformPerspective (std::vector<cv::Point2f> original, std::vector<cv::Point2f> transformed, std::vector<cv::Point2f>& dst, cv::Mat& m)
 {
+    m = videostab::estimateGlobalMotionLeastSquares(original,transformed,3,0);
     Point2f temp;
     float x;
     float y;
@@ -38,9 +39,8 @@ int main(){
     by.push_back(Point2f(3,2));
     by.push_back(Point2f(3,3));
     by.push_back(Point2f(3,4));
-    Mat t = videostab::estimateGlobalMotionLeastSquares(ax,by,3,0);
-
-    transformPerspective(ax, cz, t);
+    Mat t;
+    transformPerspective(ax,by, cz, t);
     cout << cz;
 
     return 0;
