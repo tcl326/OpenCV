@@ -41,7 +41,7 @@ int main(){
     by.push_back(Point2f(3,4));
     Mat t;
     transformPerspective(ax,by, cz, t);
-    cout << cz;
+    cout << cz << "Transfomatrix" <<t;
 
     return 0;
 }

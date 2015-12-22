@@ -1,7 +1,7 @@
 #include "opencv2/video/tracking.hpp"
 // Video write
 #include <opencv2/imgproc/imgproc.hpp>
-
+#include "opencv2/videostab/videostab.hpp"
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 #include <vector>
@@ -18,9 +18,12 @@
 
 using namespace cv;
 using namespace std;
+using namespace cv::videostab;
 
-void transformPerspective (std::vector<cv::Point2f> original, std::vector<cv::Point2f>& dst, cv::Mat m)
+// returns the coordinates of the tracked points if only camera motion is taken into account
+void transformPerspective (std::vector<cv::Point2f> original, std::vector<cv::Point2f> transformed, std::vector<cv::Point2f>& dst, cv::Mat& m)
 {
+    m = videostab::estimateGlobalMotionLeastSquares(original,transformed,3,0);
     Point2f temp;
     float x;
     float y;
