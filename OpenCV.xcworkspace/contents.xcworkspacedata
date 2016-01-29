@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:DissimilarityBetweenTrackers/DissimilarityBetweenTrackers.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:RiverSegmentation/RiverSegmentation.xcodeproj">
    </FileRef>
    <FileRef

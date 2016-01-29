@@ -210,26 +210,30 @@ int main(int argc, const char* argv[])
                 tracking[k] = tracking[i];
                 lengths[k] = lengths[i];
                 tracking[k].push_back(points[1][i]);
+                /*
                 
                 if (c != 0)
                 {
                 lengths[k] += calcLength(tracking[k].rbegin()[0], tracking[k].rbegin()[1]);
                 entropy[k] = calcEntropyUsingMiniballRadius(lengths[k], tracking[k], maxRadius);
                 }
+                 */
                 k++;
             }
             //cout << k<< endl;
             //cout << k;
-            points[0].resize(k);
-            points[1].resize(k);
-            tracking.resize(k);
-            entropy.resize(k);
-            lengths.resize(k);
+
             
             vector< Point2f> dst;
             Mat m;
             
             transformPerspective(points[0], points[1], dst, m);
+            
+            size_t d;
+            for (d = 0; d < dst.size(); d++)
+            {
+                lengths[d] += calcLength(dst[d], points[1][d]);
+            }
             
             //cout << points[0] << ";" << points[1] << ";" << dst << endl;
             
@@ -239,27 +243,27 @@ int main(int argc, const char* argv[])
             
             if (c > 3)
             {
-                naturalBreaks = JenksNaturalBreak(entropy,4);
+                naturalBreaks = JenksNaturalBreak(lengths,4);
                 
-                for (int p = 0; p<entropy.size(); ++p)
+                for (int p = 0; p<lengths.size(); ++p)
                 {
-                    if (entropy[p] < naturalBreaks[0])
+                    if (lengths[p] < naturalBreaks[0])
                     {
                         // Draw Blue Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
                     }
-                    else if (entropy[p] < naturalBreaks[1])
+                    else if (lengths[p] < naturalBreaks[1])
                     {
                         // Draw Green Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
                     }
-                    else if (entropy[p] < naturalBreaks[2])
+                    else if (lengths[p] < naturalBreaks[2])
                     {
                         //Draw Red Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                     }
 
-                    else if (entropy[p] < naturalBreaks[3])
+                    else if (lengths[p] < naturalBreaks[3])
                     {
                         //Draw Purple Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
@@ -313,7 +317,11 @@ int main(int argc, const char* argv[])
              }
             */
 
-
+            points[0].resize(k);
+            points[1].resize(k);
+            tracking.resize(k);
+            entropy.resize(k);
+            lengths.resize(k);
             c += 1;
         }
         

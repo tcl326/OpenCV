@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ColorSegmentation.xcscheme</key>
+		<key>DissimilarityBetweenTrackers.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3F76334E1BDED92500179377</key>
+		<key>3F5555E11C5BD83F00571393</key>
 		<dict>
 			<key>primary</key>
 			<true/>
