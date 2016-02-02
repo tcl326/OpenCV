@@ -43,6 +43,96 @@ double euclideanDistance (Point2f point1, Point2f point2){
     return distance;
 }
 
+vector<int> findNeighbourIndexIterative (int givenTrackerIndex, std::vector<cv::Point2f> points){
+    double radius;
+    radius = 1.0;
+    vector<int> neighbourIndex;
+    size_t n = points.size();
+    while (neighbourIndex.size() < 4) {
+        for (int i = 0; i < n; i++){
+            if (i == givenTrackerIndex) {
+                continue;
+            }
+            if (radius > euclideanDistance(points[givenTrackerIndex], points[i])){
+                neighbourIndex.push_back(i);
+            }
+        }
+        radius++;
+    }
+    return neighbourIndex;
+}
+
+void findNeighbourIndexList (vector< vector<int> >& neighbourIndexList, std::vector<cv::Point2f> points){
+    for (int i = 0; i < points.size(); i++){
+        neighbourIndexList[i] = findNeighbourIndexIterative(i, points);
+    }
+}
+
+void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int> removedIndexList){
+    bool remove = false;
+    for (int k = 0; k < removedIndexList.size(); k++){
+        for (int i = 0; i < neighbourIndexList.size(); i++) {
+            for (int j = 0; j < neighbourIndexList[i].size(); j++) {
+                if (neighbourIndexList[i][j] > removedIndexList[k]) {
+                    neighbourIndexList[i][j]--;
+                }
+                if (neighbourIndexList[i][j] == removedIndexList[k]) {
+                    remove = true;
+                }
+            }
+            if (remove) {
+                neighbourIndexList[i].erase(std::remove(neighbourIndexList[i].begin(), neighbourIndexList[i].end(), 8), neighbourIndexList[i].end());
+                remove = false;
+                
+            }
+        }
+    }
+}
+
+void dStarIterativeUpdate (int givenTrackerIndex, vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
+    double euclideanDis = 0.0;
+    size_t n = neighbourIndex.size();
+    for (int i=0; i<n; i++){
+        euclideanDis += euclideanDistance(allTrackers[givenTrackerIndex].back(), allTrackers[neighbourIndex[i]].back());
+    }
+    dStarList[givenTrackerIndex] += (euclideanDis/n);
+}
+
+void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
+    
+    cout << "[ ";
+    for (int j = 0; j < allTrackers.size(); j++){
+        double euclideanDis = 0.0;
+        size_t n = neighbourIndexList[j].size();
+        for (int i=0; i<n; i++){
+            euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
+        }
+        dStarList[j] += (euclideanDis/n);
+        cout << dStarList[j] << ", ";
+    }
+    cout << "]" << endl;
+}
+
+
+void mininimumDissimilarityIterative (int givenTrackerIndex , vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity){
+    double dissimilarity;
+    size_t n = neighbourIndex.size();
+    //dStarIterativeUpdate(givenTrackerIndex, neighbourIndex, allTrackers, dStarList);
+    minDissimilarity[givenTrackerIndex] = dStarList[neighbourIndex[0]];
+    for (int i=1; i<n; i++){
+        dissimilarity = dStarList[neighbourIndex[i]];
+        if (minDissimilarity[givenTrackerIndex] > dissimilarity){
+            minDissimilarity[givenTrackerIndex] = dissimilarity;
+        }
+    }
+}
+
+void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity, vector< vector<int> >& neighbourIndexList){
+    for (int i = 0; i < allTrackers.size(); i++){
+        mininimumDissimilarityIterative(i, neighbourIndexList[i], allTrackers, dStarList, minDissimilarity);
+    }
+}
+/*
 double euclideanMetric (std::vector<cv::Point2f> givenTracker, std::vector<cv::Point2f> neighbourTracker)
 {
     size_t gT , nT, allSize;
@@ -66,71 +156,7 @@ double euclideanMetric (std::vector<cv::Point2f> givenTracker, std::vector<cv::P
     
     return sumEuclideanDistance;
 }
-
-vector<int> findNeighbourIndexIterative (int givenTrackerIndex,std::vector< std::vector<cv::Point2f> > allTrackers){
-    double radius;
-    radius = 5.0;
-    vector<int> neighbourIndex;
-    size_t n = allTrackers.size();
-    while (neighbourIndex.size() < 4) {
-        for (int i = 0; i < n; i++){
-            if (radius > euclideanDistance(allTrackers[givenTrackerIndex].back(), allTrackers[i].back())){
-                neighbourIndex.push_back(i);
-            }
-        }
-        radius++;
-    }
-    return neighbourIndex;
-}
-
-void updateNeighbour (vector< vector<int> >& neighbourIndexList, int removedPointIndex){
-    bool remove = false;
-    for (int i = 0; i < neighbourIndexList.size(); i++) {
-
-        for (int j = 0; j < neighbourIndexList[i].size(); j++) {
-            if (neighbourIndexList[i][j] > removedPointIndex) {
-                neighbourIndexList[i][j]--;
-            }
-            if (neighbourIndexList[i][j] == removedPointIndex) {
-                remove = true;
-            }
-        }
-        if (remove) {
-            neighbourIndexList[i].erase(std::remove(neighbourIndexList[i].begin(), neighbourIndexList[i].end(), 8), neighbourIndexList[i].end());
-            
-        }
-    }
-}
-
-void dStarIterativeUpdate (int givenTrackerIndex, vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
-    double euclideanDis;
-    size_t n = neighbourIndex.size();
-    for (int i=0; i<n; i++){
-        euclideanDis += euclideanDistance(allTrackers[givenTrackerIndex].back(), allTrackers[neighbourIndex[i]].back());
-    }
-    dStarList[givenTrackerIndex] += euclideanDis/n;
-}
-
-
-void mininimumDissimilarityIterative (int givenTrackerIndex , vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity){
-    double dissimilarity;
-    size_t n = neighbourIndex.size();
-    dStarIterativeUpdate(givenTrackerIndex, neighbourIndex, allTrackers, dStarList);
-    minDissimilarity[givenTrackerIndex] = dStarList[neighbourIndex[0]];
-    for (int i=1; i<n; i++){
-        dissimilarity = dStarList[neighbourIndex[0]];
-        if (minDissimilarity[givenTrackerIndex] > dissimilarity){
-            minDissimilarity[givenTrackerIndex] = dissimilarity;
-        }
-    }
-}
-
-void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity, vector< vector<int> >& neighbourIndexList){
-    for (int i = 0; i < allTrackers.size(); i++){
-        mininimumDissimilarityIterative(i, neighbourIndexList[i], allTrackers, dStarList, minDissimilarity);
-    }
-}
-
+ 
 vector<int> findNeighbourIndex (std::vector<cv::Point2f> givenTracker,std::vector< std::vector<cv::Point2f> > allTrackers){
     double radius;
     radius = 5.0;
@@ -179,10 +205,9 @@ double mininimumDissimilarity (std::vector<cv::Point2f> givenTracker,std::vector
     
     return minDissimilarity;
 }
+*/
 
 int main(int argc, const char * argv[]) {
-    
-    
     char* movie;
     movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -237,6 +262,7 @@ int main(int argc, const char * argv[]) {
     vector<double> minDissimilarity (MAX_COUNT);
     vector<double> dissimilarity (MAX_COUNT);
     vector<double> naturalBreaks;
+    vector<double> dStarList (MAX_COUNT);
     /*
     vector<double> lengths(MAX_COUNT);
     vector<double> radius(MAX_COUNT);
@@ -265,12 +291,15 @@ int main(int argc, const char * argv[]) {
             goodFeaturesToTrack(gray, points[1], MAX_COUNT, 0.01, 10, Mat(), 3, 0, 0.04);
             cornerSubPix(gray, points[1], subPixWinSize, Size(-1,-1), termcrit);
             addRemovePt = false;
+            findNeighbourIndexList(neighbourIndexList, points[1]);
+            
         }
         
         else if( !points[0].empty() )
         {
             vector<uchar> status;
             vector<float> err;
+            std::vector<int> removedIndex;
             if(prevGray.empty())
                 gray.copyTo(prevGray);
             
@@ -280,13 +309,17 @@ int main(int argc, const char * argv[]) {
             for( i = k = 0; i < points[1].size(); i++ )
             {
                 
-                if( !status[i] )
-                    
+                if( !status[i] ){
+                    removedIndex.push_back(i);
                     continue;
+                }
                 
                 points[0][k] = points[0][i];
                 points[1][k] = points[1][i];
                 tracking[k] = tracking[i];
+                dStarList[k] = dStarList[i];
+                minDissimilarity[k] = minDissimilarity[i];
+                neighbourIndexList[k] = neighbourIndexList[i];
                 tracking[k].push_back(points[0][i]);
                 /*
                 lengths[k] = lengths[i];
@@ -302,44 +335,47 @@ int main(int argc, const char * argv[]) {
                  */
                 k++;
             }
+            
             //cout << k<< endl;
             //cout << k;
             
             points[0].resize(k);
             points[1].resize(k);
             tracking.resize(k);
-            dissimilarity.resize(k);
+            dStarList.resize(k);
+            minDissimilarity.resize(k);
+            neighbourIndexList.resize(k);
+            updateNeighbour(neighbourIndexList, removedIndex);
+            dStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
             
-            for ( int i = 0; i < k; i++ ){
-                dissimilarity[i] = mininimumDissimilarity(tracking[i], tracking);
-            }
+            updateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
 
             c += 1;
         }
         
         if (c > 3)
         {
-            naturalBreaks = JenksNaturalBreak(dissimilarity,4);
+            naturalBreaks = JenksNaturalBreak(minDissimilarity,4);
             
-            for (int p = 0; p<dissimilarity.size(); ++p)
+            for (int p = 0; p<minDissimilarity.size(); ++p)
             {
-                if (dissimilarity[p] < naturalBreaks[0])
+                if (minDissimilarity[p] < naturalBreaks[0])
                 {
                     // Draw Blue Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
                 }
-                else if (dissimilarity[p] < naturalBreaks[1])
+                else if (minDissimilarity[p] < naturalBreaks[1])
                 {
                     // Draw Green Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
                 }
-                else if (dissimilarity[p] < naturalBreaks[2])
+                else if (minDissimilarity[p] < naturalBreaks[2])
                 {
                     //Draw Red Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                 }
                 
-                else if (dissimilarity[p] < naturalBreaks[3])
+                else if (minDissimilarity[p] < naturalBreaks[3])
                 {
                     //Draw Purple Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
