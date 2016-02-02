@@ -43,20 +43,6 @@ double euclideanDistance (Point2f point1, Point2f point2){
     return distance;
 }
 
-vector<int> findNeighbourIndex (std::vector<cv::Point2f> givenTracker,std::vector< std::vector<cv::Point2f> > allTrackers){
-    double radius;
-    radius = 10.0;
-    vector<int> neighbourIndex;
-    size_t n = allTrackers.size();
-    for (int i = 0; i < n; i++){
-        if (radius > euclideanDistance(givenTracker.back(), allTrackers[i].back())){
-            neighbourIndex.push_back(i);
-        }
-    }
-    return neighbourIndex;
-}
-
-
 double euclideanMetric (std::vector<cv::Point2f> givenTracker, std::vector<cv::Point2f> neighbourTracker)
 {
     size_t gT , nT, allSize;
@@ -80,6 +66,89 @@ double euclideanMetric (std::vector<cv::Point2f> givenTracker, std::vector<cv::P
     
     return sumEuclideanDistance;
 }
+
+vector<int> findNeighbourIndexIterative (int givenTrackerIndex,std::vector< std::vector<cv::Point2f> > allTrackers){
+    double radius;
+    radius = 5.0;
+    vector<int> neighbourIndex;
+    size_t n = allTrackers.size();
+    while (neighbourIndex.size() < 4) {
+        for (int i = 0; i < n; i++){
+            if (radius > euclideanDistance(allTrackers[givenTrackerIndex].back(), allTrackers[i].back())){
+                neighbourIndex.push_back(i);
+            }
+        }
+        radius++;
+    }
+    return neighbourIndex;
+}
+
+void updateNeighbour (vector< vector<int> >& neighbourIndexList, int removedPointIndex){
+    bool remove = false;
+    for (int i = 0; i < neighbourIndexList.size(); i++) {
+
+        for (int j = 0; j < neighbourIndexList[i].size(); j++) {
+            if (neighbourIndexList[i][j] > removedPointIndex) {
+                neighbourIndexList[i][j]--;
+            }
+            if (neighbourIndexList[i][j] == removedPointIndex) {
+                remove = true;
+            }
+        }
+        if (remove) {
+            neighbourIndexList[i].erase(std::remove(neighbourIndexList[i].begin(), neighbourIndexList[i].end(), 8), neighbourIndexList[i].end());
+            
+        }
+    }
+}
+
+void dStarIterativeUpdate (int givenTrackerIndex, vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
+    double euclideanDis;
+    size_t n = neighbourIndex.size();
+    for (int i=0; i<n; i++){
+        euclideanDis += euclideanDistance(allTrackers[givenTrackerIndex].back(), allTrackers[neighbourIndex[i]].back());
+    }
+    dStarList[givenTrackerIndex] += euclideanDis/n;
+}
+
+
+void mininimumDissimilarityIterative (int givenTrackerIndex , vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity){
+    double dissimilarity;
+    size_t n = neighbourIndex.size();
+    dStarIterativeUpdate(givenTrackerIndex, neighbourIndex, allTrackers, dStarList);
+    minDissimilarity[givenTrackerIndex] = dStarList[neighbourIndex[0]];
+    for (int i=1; i<n; i++){
+        dissimilarity = dStarList[neighbourIndex[0]];
+        if (minDissimilarity[givenTrackerIndex] > dissimilarity){
+            minDissimilarity[givenTrackerIndex] = dissimilarity;
+        }
+    }
+}
+
+void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity, vector< vector<int> >& neighbourIndexList){
+    for (int i = 0; i < allTrackers.size(); i++){
+        mininimumDissimilarityIterative(i, neighbourIndexList[i], allTrackers, dStarList, minDissimilarity);
+    }
+}
+
+vector<int> findNeighbourIndex (std::vector<cv::Point2f> givenTracker,std::vector< std::vector<cv::Point2f> > allTrackers){
+    double radius;
+    radius = 5.0;
+    vector<int> neighbourIndex;
+    size_t n = allTrackers.size();
+    while (neighbourIndex.size() < 4) {
+        for (int i = 0; i < n; i++){
+            if (radius > euclideanDistance(givenTracker.back(), allTrackers[i].back())){
+                neighbourIndex.push_back(i);
+            }
+        }
+        radius++;
+    }
+    return neighbourIndex;
+}
+
+
+
 
 double dStar (std::vector<cv::Point2f> givenTracker, std::vector< std::vector<cv::Point2f> > allTrackers){
     double euclideanDistance;
@@ -164,6 +233,8 @@ int main(int argc, const char * argv[]) {
     
     
     vector< vector<Point2f> > tracking(MAX_COUNT, vector<Point2f>());
+    vector< vector<int> > neighbourIndexList(MAX_COUNT);
+    vector<double> minDissimilarity (MAX_COUNT);
     vector<double> dissimilarity (MAX_COUNT);
     vector<double> naturalBreaks;
     /*
