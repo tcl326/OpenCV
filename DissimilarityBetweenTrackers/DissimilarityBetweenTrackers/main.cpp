@@ -43,22 +43,37 @@ double euclideanDistance (Point2f point1, Point2f point2){
     return distance;
 }
 
+Point2f angleDistance (Point2f point1, Point2f point2){
+    double distance;
+    double angle;
+    Point2f angleDistance;
+    Point2f p;
+    p = point2 - point1;
+    distance = sqrt( p.x*p.x + p.y*p.y );
+    angle = atan(p.y/p.x);
+    angleDistance.x = angle;
+    angleDistance.y = distance;
+    return angleDistance;
+}
+
 vector<int> findNeighbourIndexIterative (int givenTrackerIndex, std::vector<cv::Point2f> points){
     double radius;
-    radius = 1.0;
+    radius = 10.0;
     vector<int> neighbourIndex;
     size_t n = points.size();
     while (neighbourIndex.size() < 4) {
+        neighbourIndex = {};
         for (int i = 0; i < n; i++){
             if (i == givenTrackerIndex) {
                 continue;
             }
-            if (radius > euclideanDistance(points[givenTrackerIndex], points[i])){
+            if (radius >= euclideanDistance(points[givenTrackerIndex], points[i])){
                 neighbourIndex.push_back(i);
             }
         }
         radius++;
     }
+    cout << radius << endl;
     return neighbourIndex;
 }
 
@@ -81,26 +96,27 @@ void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int> rem
                 }
             }
             if (remove) {
-                neighbourIndexList[i].erase(std::remove(neighbourIndexList[i].begin(), neighbourIndexList[i].end(), 8), neighbourIndexList[i].end());
+                neighbourIndexList[i].erase(std::remove(neighbourIndexList[i].begin(), neighbourIndexList[i].end(), removedIndexList[k]), neighbourIndexList[i].end());
                 remove = false;
                 
             }
         }
     }
 }
-
+/*
 void dStarIterativeUpdate (int givenTrackerIndex, vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
     double euclideanDis = 0.0;
     size_t n = neighbourIndex.size();
     for (int i=0; i<n; i++){
-        euclideanDis += euclideanDistance(allTrackers[givenTrackerIndex].back(), allTrackers[neighbourIndex[i]].back());
+        euclideanDis += euclideanDistance(angleDistance( allTrackers[givenTrackerIndex].back(), allTrackers[givenTrackerIndex].end()[-2]), angleDistance (allTrackers[neighbourIndex[i]].back(), allTrackers[neighbourIndex[i]].end()[-2]));
     }
     dStarList[givenTrackerIndex] += (euclideanDis/n);
 }
+ */
 
 void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
     
-    cout << "[ ";
+    //cout << "[ ";
     for (int j = 0; j < allTrackers.size(); j++){
         double euclideanDis = 0.0;
         size_t n = neighbourIndexList[j].size();
@@ -108,9 +124,9 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
             euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
         }
         dStarList[j] += (euclideanDis/n);
-        cout << dStarList[j] << ", ";
+        //cout << dStarList[j] << ", ";
     }
-    cout << "]" << endl;
+    //cout << "]" << endl;
 }
 
 
@@ -131,6 +147,89 @@ void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allT
     for (int i = 0; i < allTrackers.size(); i++){
         mininimumDissimilarityIterative(i, neighbourIndexList[i], allTrackers, dStarList, minDissimilarity);
     }
+}
+
+void test(){
+    vector<Point2f> points1;
+    vector<Point2f> points2;
+    vector<Point2f> points3;
+    vector< vector<Point2f> > allPoints;
+    vector< vector<Point2f> > tracking(9);
+    vector< vector<int> > indexList(9);
+    vector<double> minDissimilarity (9);
+    vector<double> dissimilarity (9);
+    vector<double> dStarList (9);
+    vector<int> removedIndex;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            Point2f p;
+            p.x = i;
+            p.y = j;
+            points1.push_back(p);
+        }
+    }
+    for (int i = 0; i < points1.size(); i++){
+        Point2f p;
+        p.x = points1[i].x;
+        p.y = points1[i].y + 0.5;
+        points2.push_back(p);
+    }
+    points2[0].x += 0.5;
+    for (int i = 0; i < points2.size(); i++){
+        if (i == 5) {
+            continue;
+        }
+        Point2f p;
+        p.x = points2[i].x;
+        p.y = points2[i].y + 0.5;
+        points3.push_back(p);
+    }
+    points3[0].x += 0.5;
+    
+    for (int i = 0 ; i < points1.size(); i++) {
+        cout << points1[i];
+    }
+    for (int i = 0 ; i < points2.size(); i++) {
+        cout << points2[i];
+    }
+    for (int i = 0 ; i < points3.size(); i++) {
+        cout << points3[i];
+    }
+    allPoints.push_back(points1);
+    allPoints.push_back(points2);
+    allPoints.push_back(points3);
+    
+    for (int i = 0; i < allPoints.size(); i++) {
+        if (i == 0){
+            findNeighbourIndexList(indexList, points1);
+        }
+        if (i > 0){
+            int j, k;
+            for (j = k = 0; j < allPoints[i-1].size(); j++) {
+                if (i == 2 && j == 4){
+                    removedIndex.push_back(j);
+                    continue;
+                }
+                tracking[j] = tracking[k];
+                tracking[k].push_back(allPoints[i][j]);
+                k++;
+                cout << k << endl;
+            }
+            dStarList.resize(k);
+            minDissimilarity.resize(k);
+            indexList.resize(k);
+            updateNeighbour(indexList, removedIndex);
+            dStarListIterativeUpdate(indexList, tracking, dStarList);
+            
+            updateDissimilarityIterative(tracking, dStarList, minDissimilarity, indexList);
+            for (int i = 0 ; i < minDissimilarity.size(); i++) {
+                cout << minDissimilarity[i]<< ", ";
+            }
+        }
+    }
+    
+
+    
 }
 /*
 double euclideanMetric (std::vector<cv::Point2f> givenTracker, std::vector<cv::Point2f> neighbourTracker)
@@ -208,8 +307,12 @@ double mininimumDissimilarity (std::vector<cv::Point2f> givenTracker,std::vector
 */
 
 int main(int argc, const char * argv[]) {
+    //test();
+    
     char* movie;
-    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
+    movie = "/Users/student/Desktop/GP058145.m4v";
+    //GP058145.m4v";
+    //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
     TermCriteria termcrit(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03);
     Size subPixWinSize(10,10), winSize(31,31);
@@ -263,6 +366,7 @@ int main(int argc, const char * argv[]) {
     vector<double> dissimilarity (MAX_COUNT);
     vector<double> naturalBreaks;
     vector<double> dStarList (MAX_COUNT);
+    vector<double> radiuses (MAX_COUNT);
     /*
     vector<double> lengths(MAX_COUNT);
     vector<double> radius(MAX_COUNT);
@@ -355,27 +459,27 @@ int main(int argc, const char * argv[]) {
         
         if (c > 3)
         {
-            naturalBreaks = JenksNaturalBreak(minDissimilarity,4);
+            naturalBreaks = JenksNaturalBreak(dStarList,4);
             
             for (int p = 0; p<minDissimilarity.size(); ++p)
             {
-                if (minDissimilarity[p] < naturalBreaks[0])
+                if (dStarList[p] < naturalBreaks[0])
                 {
                     // Draw Blue Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
                 }
-                else if (minDissimilarity[p] < naturalBreaks[1])
+                else if (dStarList[p] < naturalBreaks[1])
                 {
                     // Draw Green Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
                 }
-                else if (minDissimilarity[p] < naturalBreaks[2])
+                else if (dStarList[p] < naturalBreaks[2])
                 {
                     //Draw Red Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                 }
                 
-                else if (minDissimilarity[p] < naturalBreaks[3])
+                else if (dStarList[p] < naturalBreaks[3])
                 {
                     //Draw Purple Circles
                     circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
@@ -408,20 +512,5 @@ int main(int argc, const char * argv[]) {
         
     }
     return 0;
-/*
-    vector<Point2f> ax, by,cz,cy;
-    vector< vector<Point2f> > allTracks;
-    ax.push_back(Point2f(2,3));
-    ax.push_back(Point2f(2,3));
-    ax.push_back(Point2f(2,4));
-    by.push_back(Point2f(3,2));
-    by.push_back(Point2f(3,3));
-    by.push_back(Point2f(3,4));
-    cy.push_back(Point2f(3,3));
-    cy.push_back(Point2f(3,4));
-    cy.push_back(Point2f(3,5));
-    mininimumDissimilarity(ax, allTracks);
-    cout << euclideanMetric(ax, by);
-    return 0;
- */
+
 }

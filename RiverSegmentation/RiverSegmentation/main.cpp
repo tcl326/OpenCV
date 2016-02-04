@@ -22,6 +22,7 @@ using namespace cv::videostab;
 
 Point2f point;
 
+/*
 // returns the coordinates of the tracked points if only camera motion is taken into account
 // uses the points from t1 and t2 to estimate the perspective transformation matrix due to camera motion. Then use that matrix to calculate the supposed t2 only composed of camera motion.
 void transformPerspective (std::vector<cv::Point2f> t1, std::vector<cv::Point2f> t2, std::vector<cv::Point2f>& dst, cv::Mat& m)
@@ -39,9 +40,10 @@ void transformPerspective (std::vector<cv::Point2f> t1, std::vector<cv::Point2f>
         dst.push_back(temp);
     }
 }
+ */
 
 // calculate the minimum radius that encloses all the points using the MiniBall Software(V3.0)
-double calcMinRadius(vector<Point2f> points)
+double calcMinRadius(vector<Point2f>& points)
 {
     // convert vector<Point2f> to vector<double>
     std::vector<std::vector<double> > lp;
@@ -70,7 +72,7 @@ double calcMinRadius(vector<Point2f> points)
 
 // Calculate entropy using minimum radius found using default OpenCV function, inacurate as any radius
 // smaller than 1 will return 1
-double calcEntropy(double length, vector<Point2f> points, float &maxRadius)
+double calcEntropy(double length, vector<Point2f>& points, float &maxRadius)
 {
     if (points.size() < 2){
         return 0;
@@ -85,7 +87,7 @@ double calcEntropy(double length, vector<Point2f> points, float &maxRadius)
 }
 
 // calculate entropy using minimum radius found using Miniball function, very accurate
-double calcEntropyUsingMiniballRadius (double length, vector<Point2f> points, float &maxRadius)
+double calcEntropyUsingMiniballRadius (double length, vector<Point2f>& points, float &maxRadius)
 {
     if (points.size() < 2){
         return 0;
@@ -99,6 +101,20 @@ double calcEntropyUsingMiniballRadius (double length, vector<Point2f> points, fl
     return entropy;
 }
 
+void calcEntropyUsingMiniballRadiusIterative (double& entropy, double& length, vector<Point2f>& points, float &maxRadius)
+{
+    if (points.size() < 2){
+        entropy = 0;
+    }
+    else {
+        double radius;
+        radius = calcMinRadius(points);
+        if (radius > maxRadius)
+            maxRadius = radius;
+        entropy = log(length/(2*radius))/(log(points.size()-1))*radius/maxRadius;
+    }
+}
+
 // calculate the distance between two points
 double calcLength(Point2f p1, Point2f p2)
 {
@@ -107,6 +123,21 @@ double calcLength(Point2f p1, Point2f p2)
     difference = p1-p2;
     length = sqrt(pow(difference.x,2)+pow(difference.y,2));
     return length;
+}
+void calcLengthIterative(double& length, Point2f& p1, Point2f& p2)
+{
+    Point2f difference;
+    difference = p1-p2;
+    length += sqrt(pow(difference.x,2)+pow(difference.y,2));
+}
+
+void entropyListUpdate (vector<double>& entropy, vector<double>& lengths, vector< vector<Point2f> >& allTrackers, float& maxRadius)
+{
+    size_t n = allTrackers.size();
+    for (int i = 0 ; i < n; i++) {
+        calcLengthIterative(lengths[i], allTrackers[i].rbegin()[0], allTrackers[i].rbegin()[1]);
+        calcEntropyUsingMiniballRadiusIterative(entropy[i], lengths[i], allTrackers[i], maxRadius);
+    }
 }
 
 
@@ -210,20 +241,21 @@ int main(int argc, const char* argv[])
                 tracking[k] = tracking[i];
                 lengths[k] = lengths[i];
                 tracking[k].push_back(points[1][i]);
-                /*
                 
+                /*
                 if (c != 0)
                 {
                 lengths[k] += calcLength(tracking[k].rbegin()[0], tracking[k].rbegin()[1]);
                 entropy[k] = calcEntropyUsingMiniballRadius(lengths[k], tracking[k], maxRadius);
                 }
-                 */
+                */
+                
                 k++;
             }
             //cout << k<< endl;
             //cout << k;
 
-            
+            /*
             vector< Point2f> dst;
             Mat m;
             
@@ -234,7 +266,19 @@ int main(int argc, const char* argv[])
             {
                 lengths[d] += calcLength(dst[d], points[1][d]);
             }
+            */
             
+            points[0].resize(k);
+            points[1].resize(k);
+            tracking.resize(k);
+            entropy.resize(k);
+            lengths.resize(k);
+            
+            entropyListUpdate(entropy, lengths, tracking, maxRadius);
+            
+            c += 1;
+        }
+        
             //cout << points[0] << ";" << points[1] << ";" << dst << endl;
             
             // Use Jenk's Natural Break algorithm (1D segmentation) to cluster features based on their
@@ -243,27 +287,27 @@ int main(int argc, const char* argv[])
             
             if (c > 3)
             {
-                naturalBreaks = JenksNaturalBreak(lengths,4);
+                naturalBreaks = JenksNaturalBreak(entropy,4);
                 
-                for (int p = 0; p<lengths.size(); ++p)
+                for (int p = 0; p<entropy.size(); ++p)
                 {
-                    if (lengths[p] < naturalBreaks[0])
+                    if (entropy[p] < naturalBreaks[0])
                     {
                         // Draw Blue Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
                     }
-                    else if (lengths[p] < naturalBreaks[1])
+                    else if (entropy[p] < naturalBreaks[1])
                     {
                         // Draw Green Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
                     }
-                    else if (lengths[p] < naturalBreaks[2])
+                    else if (entropy[p] < naturalBreaks[2])
                     {
                         //Draw Red Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                     }
 
-                    else if (lengths[p] < naturalBreaks[3])
+                    else if (entropy[p] < naturalBreaks[3])
                     {
                         //Draw Purple Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
@@ -277,6 +321,8 @@ int main(int argc, const char* argv[])
                     
                 }
             }
+
+        
             /* //Use Kmeans segmentation to cluster features based on their entropy value.
              if (c>3){
              Mat centers;
@@ -317,13 +363,8 @@ int main(int argc, const char* argv[])
              }
             */
 
-            points[0].resize(k);
-            points[1].resize(k);
-            tracking.resize(k);
-            entropy.resize(k);
-            lengths.resize(k);
-            c += 1;
-        }
+
+        
         
         needToInit = false;
         imshow("Entropy Based River Segmentation", image);
