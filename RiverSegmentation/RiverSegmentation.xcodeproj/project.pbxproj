@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F8B26161C29C57B008BACF0 /* libopencv_videostab.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F8B26151C29C57B008BACF0 /* libopencv_videostab.2.4.12.dylib */; };
 		3F93C9B11C19DD9F007322F3 /* JenksNaturalBreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F93C9AE1C19DD9F007322F3 /* JenksNaturalBreak.cpp */; };
 		3FD6E08D1C0E5458003786F9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FD6E08C1C0E5458003786F9 /* main.cpp */; };
 		3FD6E09D1C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FD6E0971C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib */; };
@@ -29,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F8B26151C29C57B008BACF0 /* libopencv_videostab.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_videostab.2.4.12.dylib; path = /usr/local/Cellar/opencv/2.4.12/lib/libopencv_videostab.2.4.12.dylib; sourceTree = "<absolute>"; };
 		3F93C9AE1C19DD9F007322F3 /* JenksNaturalBreak.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JenksNaturalBreak.cpp; sourceTree = "<group>"; };
 		3F93C9AF1C19DD9F007322F3 /* JenksNaturalBreak.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JenksNaturalBreak.hpp; sourceTree = "<group>"; };
 		3F93C9B01C19DD9F007322F3 /* Miniball.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Miniball.hpp; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 				3FD6E09D1C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib in Frameworks */,
 				3FFA32C81C20763B00A8A06A /* libopencv_highgui.2.4.12.dylib in Frameworks */,
 				3FD6E09E1C0E547E003786F9 /* libopencv_video.2.4.12.dylib in Frameworks */,
+				3F8B26161C29C57B008BACF0 /* libopencv_videostab.2.4.12.dylib in Frameworks */,
 				3FFA32C71C20763B00A8A06A /* libopencv_imgproc.2.4.12.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +96,7 @@
 				3FD6E0971C0E547E003786F9 /* libopencv_gpu.2.4.12.dylib */,
 				3FD6E0981C0E547E003786F9 /* libopencv_video.2.4.12.dylib */,
 				3FFA32C41C20763B00A8A06A /* libopencv_imgproc.2.4.12.dylib */,
+				3F8B26151C29C57B008BACF0 /* libopencv_videostab.2.4.12.dylib */,
 				3FFA32C51C20763B00A8A06A /* libopencv_highgui.2.4.12.dylib */,
 				3FFA32C61C20763B00A8A06A /* libopencv_core.2.4.12.dylib */,
 			);

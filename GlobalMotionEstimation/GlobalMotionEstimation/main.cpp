@@ -32,16 +32,20 @@ void transformPerspective (std::vector<cv::Point2f> original, std::vector<cv::Po
 
 
 int main(){
-    vector<Point2f> ax, by,cz;
+    vector<Point2f> ax, by,cz,cy;
     ax.push_back(Point2f(2,2));
     ax.push_back(Point2f(2,3));
     ax.push_back(Point2f(2,4));
     by.push_back(Point2f(3,2));
     by.push_back(Point2f(3,3));
     by.push_back(Point2f(3,4));
+    cy.push_back(Point2f(3,3));
+    cy.push_back(Point2f(3,4));
+    cy.push_back(Point2f(3,5));
     Mat t;
     transformPerspective(ax,by, cz, t);
-    cout << cz;
+    
+    cout << cz << "Transfomatrix" <<t;
 
     return 0;
 }
