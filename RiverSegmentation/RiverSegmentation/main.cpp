@@ -459,11 +459,9 @@ int main(int argc, const char* argv[])
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                     }
 
-<<<<<<< HEAD
-                    else if (entropy[p] < naturalBreaks[3])
-=======
+
                     else if (fusion[p] < naturalBreaks[3])
->>>>>>> CameraMotionInvariant
+
                     {
                         //Draw Purple Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
