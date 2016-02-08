@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:usingAndGeneratingMasks/usingAndGeneratingMasks.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:trackerAddition/trackerAddition.xcodeproj">
    </FileRef>
    <FileRef

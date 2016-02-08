@@ -312,7 +312,9 @@ int main(int argc, const char* argv[])
 {
 
     char* movie;
-    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
+    movie = "/Users/student/Desktop/GP058145.m4v";
+    
+    
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -340,7 +342,7 @@ int main(int argc, const char* argv[])
     namedWindow( "Entropy Based River Segmentation", 1 );
     
     VideoWriter outputVideo;
-    bool writeMovie = false; //write the output video to the place defined by filename
+    bool writeMovie = true; //write the output video to the place defined by filename
     if (writeMovie)
     {
         char* filename;
