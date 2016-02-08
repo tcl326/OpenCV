@@ -9,169 +9,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ReadWriteVideo/ReadWriteVideo/main.cpp"
-            timestampString = "467851519.803021"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "main(int argc, char *argv[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SparseOpticalFlow/SparseOpticalFlow/main.cpp"
-            timestampString = "470702815.359228"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SparseOpticalFlow/SparseOpticalFlow/main.cpp"
-            timestampString = "470702843.800475"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SparseOpticalFlow/SparseOpticalFlow/main.cpp"
-            timestampString = "470703607.854301"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "JenksNaturalBreak/JenksNaturalBreak/main.cpp"
-            timestampString = "470087345.920865"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "main(int c, char** argv)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SparseOpticalFlow/SparseOpticalFlow/main.cpp"
-            timestampString = "470702843.800475"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SparseOpticalFlow/SparseOpticalFlow/main.cpp"
-            timestampString = "470702843.800475"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SparseOpticalFlow/SparseOpticalFlow/main.cpp"
-            timestampString = "470702843.800475"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            symbolName = "malloc_error_break"
-            moduleName = "">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "malloc_error_break"
-                  moduleName = "libsystem_malloc.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "RiverSegmentation/RiverSegmentation/main.cpp"
-<<<<<<< HEAD
-            timestampString = "472515027.702378"
+            timestampString = "476318609.63518"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
-=======
-            timestampString = "476289855.096016"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "528"
-            endingLineNumber = "528"
->>>>>>> CameraMotionInvariant
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "main(int argc, const char* argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -179,29 +22,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
+            timestampString = "476319419.940966"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "514"
-            endingLineNumber = "514"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
             landmarkName = "main(int argc, const char * argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -209,16 +38,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
+            timestampString = "476319635.233829"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "510"
-            endingLineNumber = "510"
-            landmarkName = "main(int argc, const char * argv[])"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "dStarListIterativeUpdate (vector&lt; vector&lt;int&gt; &gt;&amp; neighbourIndexList, std::vector&lt; std::vector&lt;cv::Point2f&gt; &gt;&amp; allTrackers, vector&lt;double&gt;&amp; dStarList)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -229,122 +58,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
+            timestampString = "476319651.450617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "481"
-            endingLineNumber = "481"
-            landmarkName = "main(int argc, const char * argv[])"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "dStarListIterativeUpdate (vector&lt; vector&lt;int&gt; &gt;&amp; neighbourIndexList, std::vector&lt; std::vector&lt;cv::Point2f&gt; &gt;&amp; allTrackers, vector&lt;double&gt;&amp; dStarList)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
+            timestampString = "476319885.415212"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "229"
-            endingLineNumber = "229"
-            landmarkName = "test()"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "dStarListIterativeUpdate (vector&lt; vector&lt;int&gt; &gt;&amp; neighbourIndexList, std::vector&lt; std::vector&lt;cv::Point2f&gt; &gt;&amp; allTrackers, vector&lt;double&gt;&amp; dStarList)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
+            timestampString = "476337759.924965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "test()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "test()"
-                  moduleName = "DissimilarityBetweenTrackers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/student/Desktop/OpenCV/DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-                  timestampString = "476160901.509448"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "215"
-                  endingLineNumber = "215"
-                  offsetFromSymbolStart = "1619">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "test()"
-                  moduleName = "DissimilarityBetweenTrackers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/student/Desktop/OpenCV/DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-                  timestampString = "476160901.509811"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "215"
-                  endingLineNumber = "215"
-                  offsetFromSymbolStart = "1719">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "test()"
-                  moduleName = "DissimilarityBetweenTrackers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/student/Desktop/OpenCV/DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-                  timestampString = "476160901.51036"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "215"
-                  endingLineNumber = "215"
-                  offsetFromSymbolStart = "5164">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "test()"
-                  moduleName = "DissimilarityBetweenTrackers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/student/Desktop/OpenCV/DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-                  timestampString = "476160901.510602"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "215"
-                  endingLineNumber = "215"
-                  offsetFromSymbolStart = "6603">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DissimilarityBetweenTrackers/DissimilarityBetweenTrackers/main.cpp"
-            timestampString = "476250783.262551"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "455"
-            endingLineNumber = "455"
-            landmarkName = "main(int argc, const char * argv[])"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "dStarListIterativeUpdate (vector&lt; vector&lt;int&gt; &gt;&amp; neighbourIndexList, std::vector&lt; std::vector&lt;cv::Point2f&gt; &gt;&amp; allTrackers, vector&lt;double&gt;&amp; dStarList)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

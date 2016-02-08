@@ -236,6 +236,7 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
         size_t n = neighbourIndexList[j].size();
         for (int i=0; i<n; i++){
             euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
+            //euclideanDis += euclideanDistance(angleDistance( allTrackers[j].back(), allTrackers[j].rbegin()[1]), angleDistance (allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].rbegin()[1]));
         }
         dStarList[j] += (euclideanDis/n);
         //cout << dStarList[j] << ", ";
@@ -264,8 +265,11 @@ void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allT
 }
 
 void fusionUpdate (vector<double>& entropyList, vector<double>& dStarList, vector<double>& fusionList){
+    double entropyMax, dStarMax;
+    entropyMax = *max_element(entropyList.begin(), entropyList.end());
+    dStarMax = *max_element(dStarList.begin(), dStarList.end());
     for (int i = 0; i < entropyList.size(); i++){
-        fusionList[i] = entropyList[i] * dStarList[i];
+        fusionList[i] = entropyList[i]/entropyMax * dStarList[i]/dStarMax;
     }
 }
 
@@ -274,7 +278,7 @@ int main(int argc, const char* argv[])
 
     char* movie;
     movie = "/Users/student/Desktop/GP058145.m4v";
-    //GP058145.m4v"
+    //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
     TermCriteria termcrit(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03);
@@ -426,7 +430,7 @@ int main(int argc, const char* argv[])
             dStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
             updateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
             entropyListUpdate(entropy, lengths, tracking, maxRadius);
-            fusionUpdate(entropy,dStarList,fusion);
+            fusionUpdate(entropy,minDissimilarity,fusion);
             
             c += 1;
         }

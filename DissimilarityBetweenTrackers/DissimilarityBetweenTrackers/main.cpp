@@ -50,7 +50,7 @@ Point2f angleDistance (Point2f point1, Point2f point2){
     Point2f p;
     p = point2 - point1;
     distance = sqrt( p.x*p.x + p.y*p.y );
-    angle = atan(p.y/p.x);
+    angle = atan2(p.y, p.x);
     angleDistance.x = angle;
     angleDistance.y = distance;
     return angleDistance;
@@ -121,7 +121,9 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
         double euclideanDis = 0.0;
         size_t n = neighbourIndexList[j].size();
         for (int i=0; i<n; i++){
-            euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
+            //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
+            euclideanDis += euclideanDistance(angleDistance( allTrackers[j].back(), allTrackers[j].end()[-2]), angleDistance (allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]));
+            cout << euclideanDis << "; ";
         }
         dStarList[j] += (euclideanDis/n);
         //cout << dStarList[j] << ", ";
