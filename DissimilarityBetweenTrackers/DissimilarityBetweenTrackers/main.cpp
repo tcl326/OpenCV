@@ -333,7 +333,7 @@ int main(int argc, const char * argv[]) {
     //test();
     
     char* movie;
-    movie = "/Users/student/Desktop/GP058145.m4v";
+    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;

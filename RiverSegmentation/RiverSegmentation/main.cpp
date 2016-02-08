@@ -227,7 +227,7 @@ void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int> rem
  dStarList[givenTrackerIndex] += (euclideanDis/n);
  }
  */
-
+/*
 void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
     
     //cout << "[ ";
@@ -239,6 +239,41 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
             //euclideanDis += euclideanDistance(angleDistance( allTrackers[j].back(), allTrackers[j].rbegin()[1]), angleDistance (allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].rbegin()[1]));
         }
         dStarList[j] += (euclideanDis/n);
+        //cout << dStarList[j] << ", ";
+    }
+    //cout << "]" << endl;
+}*/
+
+void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
+    
+    //cout << "[ ";
+    for (int j = 0; j < allTrackers.size(); j++){
+        if (allTrackers[j].size() == 1){
+            continue;
+        }
+        double euclideanDis = 0.0;
+        size_t n = neighbourIndexList[j].size();
+        for (int i=0; i<n; i++){
+            Point2f angleDistance1;
+            Point2f angleDistance2;
+            double distance;
+            angleDistance1 = angleDistance(allTrackers[j].back(), allTrackers[j].end()[-2]);
+            angleDistance2 = angleDistance(allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]);
+            //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
+            distance = euclideanDistance(angleDistance1, angleDistance2);
+            euclideanDis += distance;
+            //cout << euclideanDis << "; ";
+            if (not isfinite(distance)){
+                cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
+                for (int k = 0; k < allTrackers[j].size(); k++) {
+                    cout << allTrackers[j][k] << endl;
+                }
+            }
+        }
+        dStarList[j] += (euclideanDis/n);
+        //if (not isfinite(dStarList[j])) {
+        //    cout << euclideanDis << "; " << n << "; " << j << endl;
+        //}
         //cout << dStarList[j] << ", ";
     }
     //cout << "]" << endl;
@@ -277,7 +312,7 @@ int main(int argc, const char* argv[])
 {
 
     char* movie;
-    movie = "/Users/student/Desktop/GP058145.m4v";
+    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -305,7 +340,7 @@ int main(int argc, const char* argv[])
     namedWindow( "Entropy Based River Segmentation", 1 );
     
     VideoWriter outputVideo;
-    bool writeMovie = true; //write the output video to the place defined by filename
+    bool writeMovie = false; //write the output video to the place defined by filename
     if (writeMovie)
     {
         char* filename;
@@ -430,7 +465,7 @@ int main(int argc, const char* argv[])
             dStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
             updateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
             entropyListUpdate(entropy, lengths, tracking, maxRadius);
-            fusionUpdate(entropy,minDissimilarity,fusion);
+            fusionUpdate(entropy,dStarList,fusion);
             
             c += 1;
         }
