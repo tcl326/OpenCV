@@ -32,6 +32,9 @@
 #include <stdarg.h>
 #include "JenksNaturalBreak.hpp"
 
+#include <cmath>
+#include <cfloat>
+
 using namespace std;
 using namespace cv;
 
@@ -118,14 +121,32 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
     
     //cout << "[ ";
     for (int j = 0; j < allTrackers.size(); j++){
+        if (allTrackers[j].size() == 1){
+            continue;
+        }
         double euclideanDis = 0.0;
         size_t n = neighbourIndexList[j].size();
         for (int i=0; i<n; i++){
+            Point2f angleDistance1;
+            Point2f angleDistance2;
+            double distance;
+            angleDistance1 = angleDistance(allTrackers[j].back(), allTrackers[j].end()[-2]);
+            angleDistance2 = angleDistance(allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]);
             //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
-            euclideanDis += euclideanDistance(angleDistance( allTrackers[j].back(), allTrackers[j].end()[-2]), angleDistance (allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]));
-            cout << euclideanDis << "; ";
+            distance = euclideanDistance(angleDistance1, angleDistance2);
+            euclideanDis += distance;
+            //cout << euclideanDis << "; ";
+            if (not isfinite(distance)){
+                cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
+                for (int k = 0; k < allTrackers[j].size(); k++) {
+                    cout << allTrackers[j][k] << endl;
+                }
+            }
         }
         dStarList[j] += (euclideanDis/n);
+        //if (not isfinite(dStarList[j])) {
+        //    cout << euclideanDis << "; " << n << "; " << j << endl;
+        //}
         //cout << dStarList[j] << ", ";
     }
     //cout << "]" << endl;
