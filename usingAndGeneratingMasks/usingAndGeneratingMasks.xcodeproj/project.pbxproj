@@ -14,6 +14,7 @@
 		3FABF86B1C695E72009CF368 /* libopencv_videostab.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FABF8641C695E72009CF368 /* libopencv_videostab.2.4.12.dylib */; };
 		3FABF86C1C695E72009CF368 /* libopencv_highgui.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FABF8651C695E72009CF368 /* libopencv_highgui.2.4.12.dylib */; };
 		3FABF86D1C695E72009CF368 /* libopencv_core.2.4.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FABF8661C695E72009CF368 /* libopencv_core.2.4.12.dylib */; };
+		3FABF8711C6A8277009CF368 /* JenksNaturalBreak.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FABF86E1C6A8277009CF368 /* JenksNaturalBreak.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,9 @@
 		3FABF8641C695E72009CF368 /* libopencv_videostab.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_videostab.2.4.12.dylib; path = /usr/local/Cellar/opencv/2.4.12/lib/libopencv_videostab.2.4.12.dylib; sourceTree = "<absolute>"; };
 		3FABF8651C695E72009CF368 /* libopencv_highgui.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_highgui.2.4.12.dylib; path = "/Users/student/Desktop/CV Canal/../../../../usr/local/Cellar/opencv/2.4.12/lib/libopencv_highgui.2.4.12.dylib"; sourceTree = "<absolute>"; };
 		3FABF8661C695E72009CF368 /* libopencv_core.2.4.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.12.dylib; path = "/Users/student/Desktop/CV Canal/../../../../usr/local/Cellar/opencv/2.4.12/lib/libopencv_core.2.4.12.dylib"; sourceTree = "<absolute>"; };
+		3FABF86E1C6A8277009CF368 /* JenksNaturalBreak.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JenksNaturalBreak.cpp; path = ../../RiverSegmentation/RiverSegmentation/JenksNaturalBreak.cpp; sourceTree = "<group>"; };
+		3FABF86F1C6A8277009CF368 /* JenksNaturalBreak.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JenksNaturalBreak.hpp; path = ../../RiverSegmentation/RiverSegmentation/JenksNaturalBreak.hpp; sourceTree = "<group>"; };
+		3FABF8701C6A8277009CF368 /* Miniball.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Miniball.hpp; path = ../../RiverSegmentation/RiverSegmentation/Miniball.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,9 @@
 			isa = PBXGroup;
 			children = (
 				3FABF85A1C695B80009CF368 /* main.cpp */,
+				3FABF86E1C6A8277009CF368 /* JenksNaturalBreak.cpp */,
+				3FABF86F1C6A8277009CF368 /* JenksNaturalBreak.hpp */,
+				3FABF8701C6A8277009CF368 /* Miniball.hpp */,
 			);
 			path = usingAndGeneratingMasks;
 			sourceTree = "<group>";
@@ -152,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FABF85B1C695B80009CF368 /* main.cpp in Sources */,
+				3FABF8711C6A8277009CF368 /* JenksNaturalBreak.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +296,7 @@
 				3FABF8601C695B80009CF368 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

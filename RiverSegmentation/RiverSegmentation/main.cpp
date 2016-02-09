@@ -308,6 +308,29 @@ void fusionUpdate (vector<double>& entropyList, vector<double>& dStarList, vecto
     }
 }
 
+//Continuous tracking
+
+void generateMask(cv::Mat& mask, cv::Mat& image, vector<Point2f>& points){
+    double length = 20.0;
+    int cols = image.cols;
+    int rows = image.rows;
+    mask = cv::Mat::ones(rows, cols, CV_8UC1)*255;
+    for (int i = 0; i < points.size(); i++){
+        float x = points[i].x-length/2;
+        float y = points[i].y-length/2;
+        if (x < 0 || y < 0 || x+length > cols || y+length > rows) {
+            continue;
+        }
+        
+        Rect ROI (x, y, length, length);
+        mask(ROI).setTo(Scalar::all(0));
+    }
+}
+
+void concatenateVectors (vector<Point2f>& a, vector<Point2f>& b){
+    a.insert(std::end(a), std::begin(b), std::end(b));
+}
+
 int main(int argc, const char* argv[])
 {
 
