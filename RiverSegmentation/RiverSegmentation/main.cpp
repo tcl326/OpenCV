@@ -342,7 +342,7 @@ int main(int argc, const char* argv[])
     namedWindow( "Entropy Based River Segmentation", 1 );
     
     VideoWriter outputVideo;
-    bool writeMovie = true; //write the output video to the place defined by filename
+    bool writeMovie = false; //write the output video to the place defined by filename
     if (writeMovie)
     {
         char* filename;
@@ -467,7 +467,7 @@ int main(int argc, const char* argv[])
             dStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
             updateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
             entropyListUpdate(entropy, lengths, tracking, maxRadius);
-            fusionUpdate(entropy,dStarList,fusion);
+            fusionUpdate(entropy,minDissimilarity,fusion);
             
             c += 1;
         }
