@@ -20,6 +20,7 @@ using namespace cv;
 using namespace std;
 using namespace cv::videostab;
 
+
 void drawBasedOnBreaks(const vector<double>& naturalBreaks, const vector<double>& values, Mat& image, vector< vector<Point2f> > tracking){
     
     for (int p = 0; p<values.size(); ++p)
@@ -55,7 +56,7 @@ void drawBasedOnBreaks(const vector<double>& naturalBreaks, const vector<double>
         }
         
     }
-
+    
 }
 
 void generateMask(cv::Mat& mask, cv::Mat& image, vector<Point2f>& points){
@@ -322,7 +323,7 @@ int main(int argc, const char* argv[])
     
     char* movie;
     movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
-
+    
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -371,27 +372,25 @@ int main(int argc, const char* argv[])
     Mat gray, prevGray, image, mask;
     vector<Point2f> points[2];
     vector<Point2f> pointsInit;
-    vector<Point2f> motions;
-    vector< vector<Point2f> > tracking(MAX_COUNT, vector<Point2f>());
+    vector< vector< vector<Point2f> > > tracking(1, vector< vector<Point2f> > (MAX_COUNT, vector<Point2f>()));
     
-    vector<double> lengths(MAX_COUNT);
-    vector<double> radius(MAX_COUNT);
-    vector<Point2f> difference;
-    vector<double> entropy(MAX_COUNT);
+    vector< vector<double> > lengths(1, vector<double> (MAX_COUNT));
+    vector< vector<double> > radius(1, vector<double> (MAX_COUNT));
+    vector< vector<double> > entropy(1, vector<double> (MAX_COUNT));
     vector<double> naturalBreaks;
     
     
     //Variables for Dissimilarity
     
-    vector< vector<int> > neighbourIndexList(MAX_COUNT);
-    vector<double> minDissimilarity (MAX_COUNT);
-    vector<double> dissimilarity (MAX_COUNT);
-    vector<double> dStarList (MAX_COUNT);
-    vector<double> radiuses (MAX_COUNT);
-    vector<double> fusion (MAX_COUNT);
+    vector< vector< vector<int> > > neighbourIndexList(1, vector< vector<int> >(MAX_COUNT));
+    vector< vector<double> > minDissimilarity (1, vector<double> (MAX_COUNT));
+    vector< vector<double> > dissimilarity (1, vector<double> (MAX_COUNT));
+    vector< vector<double> > dStarList (1, vector<double> (MAX_COUNT));
+    vector< vector<double> > radiuses (1, vector<double> (MAX_COUNT));
+    vector< vector<double> > fusion (1, vector<double> (MAX_COUNT));
     
     
-    float maxRadius = 0.0;
+    vector<float> maxRadius(1, 0.0);
     int c = 0;
     int numPoints = 0;
     
@@ -415,7 +414,7 @@ int main(int argc, const char* argv[])
             addRemovePt = false;
             concatenateVectors(points[1], pointsInit);
             neighbourIndexList.resize(points[1].size());
-
+            
             cout << pointsInit.size() << endl;
             cout << numPoints << endl;
             
@@ -477,42 +476,6 @@ int main(int argc, const char* argv[])
             
             drawBasedOnBreaks(naturalBreaks, entropy, image, tracking);
             
-            /*
-            
-            for (int p = 0; p<fusion.size(); ++p)
-            {
-                if (fusion[p] < naturalBreaks[0])
-                {
-                    // Draw Blue Circles
-                    circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
-                }
-                else if (fusion[p] < naturalBreaks[1])
-                {
-                    // Draw Green Circles
-                    circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
-                }
-                else if (fusion[p] < naturalBreaks[2])
-                {
-                    //Draw Red Circles
-                    circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
-                }
-                
-                
-                else if (fusion[p] < naturalBreaks[3])
-                    
-                {
-                    //Draw Purple Circles
-                    circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
-                }
-                else
-                {
-                    // Draw Yellow Circles
-                    circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,255), -1, 8);
-                    
-                }
-                
-            }
-             */
         }
         
         imshow("Entropy Based River Segmentation", image);

@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:valueTimeClass/valueTimeClass.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:continuousTrackingClasses/continuousTrackingClasses.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:usingAndGeneratingMasks/usingAndGeneratingMasks.xcodeproj">
    </FileRef>
    <FileRef
