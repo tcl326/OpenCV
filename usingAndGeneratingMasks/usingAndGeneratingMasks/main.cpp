@@ -516,7 +516,7 @@ int main(int argc, const char* argv[])
         }
         
         imshow("Entropy Based River Segmentation", image);
-        //imshow("Mask", mask);
+        imshow("Mask", mask);
         
         char d = (char)waitKey(30);
         if( d == 27 )
