@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:testCases/testCases.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:valueTimeClass/valueTimeClass.xcodeproj">
    </FileRef>
    <FileRef

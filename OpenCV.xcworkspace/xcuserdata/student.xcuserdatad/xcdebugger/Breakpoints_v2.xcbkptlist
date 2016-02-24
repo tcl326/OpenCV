@@ -6,22 +6,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiverSegmentation/RiverSegmentation/main.cpp"
-            timestampString = "476741918.545405"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
-            landmarkName = "main(int argc, const char* argv[])"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -96,22 +80,6 @@
             startingLineNumber = "145"
             endingLineNumber = "145"
             landmarkName = "dStarListIterativeUpdate (vector&lt; vector&lt;int&gt; &gt;&amp; neighbourIndexList, std::vector&lt; std::vector&lt;cv::Point2f&gt; &gt;&amp; allTrackers, vector&lt;double&gt;&amp; dStarList)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RiverSegmentation/RiverSegmentation/main.cpp"
-            timestampString = "476741918.545405"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
-            landmarkName = "main(int argc, const char* argv[])"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
