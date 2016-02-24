@@ -512,7 +512,7 @@ int main(int argc, const char* argv[])
     
     Mat gray, prevGray, image, mask;
     vector<Point2f> points[2];
-    vector<Point2f> pointsInit;
+    
     vector< vector< vector<Point2f> > > tracking;// (1, vector< vector<Point2f> > (MAX_COUNT, vector<Point2f>()));
     
     vector< vector<double> > lengths;//(1, vector<double> (MAX_COUNT));
@@ -550,6 +550,7 @@ int main(int argc, const char* argv[])
         
         if( needToInit )
         {
+            vector<Point2f> pointsInit;
             cout << "Generating NEW POINTS";
             generateMask(mask, image, points[1]);
             // Using goodFeaturesToTrack function to automatically find 500 features to track
@@ -632,12 +633,12 @@ int main(int argc, const char* argv[])
         
         if (c > 3)
         {
-            for (int i = 0; i < fusion.size(); i++){
+            for (int i = 0; i < entropy.size(); i++){
                 if (tracking[i][0].size() < 3){
                     continue;
                 }
-                naturalBreaks = JenksNaturalBreak(fusion[i], 4);
-                drawBasedOnBreaks(naturalBreaks, fusion[i], image, tracking[i]);
+                naturalBreaks = JenksNaturalBreak(entropy[i], 4);
+                drawBasedOnBreaks(naturalBreaks, entropy[i], image, tracking[i]);
                 
             }
             /*

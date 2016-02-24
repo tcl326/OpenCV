@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
-            timestampString = "477895473.46593"
+            timestampString = "477987541.944291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "604"
-            endingLineNumber = "604"
+            startingLineNumber = "605"
+            endingLineNumber = "605"
             landmarkName = "main(int argc, const char* argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
-            timestampString = "477895473.46593"
+            timestampString = "477987541.944291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
+            startingLineNumber = "647"
+            endingLineNumber = "647"
             landmarkName = "main(int argc, const char* argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
-            timestampString = "477895473.46593"
+            timestampString = "477987541.944291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "646"
+            endingLineNumber = "646"
             landmarkName = "main(int argc, const char* argv[])"
             landmarkType = "7">
          </BreakpointContent>
@@ -390,7 +390,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
@@ -403,14 +403,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "timedFindNeighbourIndexList(std::__1::vector&lt;std::__1::vector&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt; &gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt; &gt; &gt; &gt; &gt;&amp;, std::__1::vector&lt;cv::Point_&lt;float&gt;, std::__1::allocator&lt;cv::Point_&lt;float&gt; &gt; &gt;)"
                   moduleName = "continuousTrackingClasses"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/student/Desktop/OpenCV/continuousTrackingClasses/continuousTrackingClasses/main.cpp"
-                  timestampString = "477895473.804912"
+                  timestampString = "477987684.908863"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "255"
@@ -418,14 +418,14 @@
                   offsetFromSymbolStart = "1207">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "timedFindNeighbourIndexList(std::__1::vector&lt;std::__1::vector&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt; &gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;int, std::__1::allocator&lt;int&gt; &gt; &gt; &gt; &gt; &gt;&amp;, std::__1::vector&lt;cv::Point_&lt;float&gt;, std::__1::allocator&lt;cv::Point_&lt;float&gt; &gt; &gt;)"
                   moduleName = "continuousTrackingClasses"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/student/Desktop/OpenCV/continuousTrackingClasses/continuousTrackingClasses/main.cpp"
-                  timestampString = "477895473.805197"
+                  timestampString = "477987684.90922"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "255"
@@ -433,6 +433,86 @@
                   offsetFromSymbolStart = "1271">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
+            timestampString = "477987681.200267"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "559"
+            endingLineNumber = "559"
+            landmarkName = "main(int argc, const char* argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
+            timestampString = "477987848.525297"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
+            landmarkName = "main(int argc, const char* argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
+            timestampString = "477988749.003804"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "445"
+            endingLineNumber = "445"
+            landmarkName = "updateAllTimedAndDraw (vector&lt; vector&lt; vector&lt;Point2f&gt; &gt; &gt;&amp; allTrackers,const vector&lt;uchar&gt;&amp; status, vector&lt;Point2f&gt;&amp; oldPoints, vector&lt;Point2f&gt;&amp; newPoints, vector&lt; vector&lt;int&gt; &gt;&amp; removedIndex, vector&lt; vector&lt;double&gt; &gt;&amp; lengths, Mat&amp; image, int&amp; numPoints, vector&lt;int&gt;&amp; numberPerTime, vector&lt; vector&lt;double&gt; &gt;&amp; dStarList, vector&lt; vector&lt;double&gt; &gt;&amp; minDissimilarity, vector&lt; vector&lt; vector&lt;int&gt; &gt; &gt;&amp; neighbourIndexList)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
+            timestampString = "477988755.50633"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "updateAllTimedAndDraw (vector&lt; vector&lt; vector&lt;Point2f&gt; &gt; &gt;&amp; allTrackers,const vector&lt;uchar&gt;&amp; status, vector&lt;Point2f&gt;&amp; oldPoints, vector&lt;Point2f&gt;&amp; newPoints, vector&lt; vector&lt;int&gt; &gt;&amp; removedIndex, vector&lt; vector&lt;double&gt; &gt;&amp; lengths, Mat&amp; image, int&amp; numPoints, vector&lt;int&gt;&amp; numberPerTime, vector&lt; vector&lt;double&gt; &gt;&amp; dStarList, vector&lt; vector&lt;double&gt; &gt;&amp; minDissimilarity, vector&lt; vector&lt; vector&lt;int&gt; &gt; &gt;&amp; neighbourIndexList)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "continuousTrackingClasses/continuousTrackingClasses/main.cpp"
+            timestampString = "477989918.703284"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
+            landmarkName = "main(int argc, const char* argv[])"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

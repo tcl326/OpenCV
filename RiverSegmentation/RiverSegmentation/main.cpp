@@ -344,7 +344,7 @@ int main(int argc, const char* argv[])
     TermCriteria termcrit(CV_TERMCRIT_ITER|CV_TERMCRIT_EPS, 20, 0.03);
     Size subPixWinSize(10,10), winSize(31,31);
     
-    const int MAX_COUNT = 500;
+    const int MAX_COUNT = 400;
     bool needToInit = true;
     bool addRemovePt = false;
     
@@ -503,28 +503,28 @@ int main(int argc, const char* argv[])
             
             if (c > 3)
             {
-                naturalBreaks = JenksNaturalBreak(fusion,4);
+                naturalBreaks = JenksNaturalBreak(entropy,4);
                 
-                for (int p = 0; p<fusion.size(); ++p)
+                for (int p = 0; p<entropy.size(); ++p)
                 {
-                    if (fusion[p] < naturalBreaks[0])
+                    if (entropy[p] < naturalBreaks[0])
                     {
                         // Draw Blue Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
                     }
-                    else if (fusion[p] < naturalBreaks[1])
+                    else if (entropy[p] < naturalBreaks[1])
                     {
                         // Draw Green Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
                     }
-                    else if (fusion[p] < naturalBreaks[2])
+                    else if (entropy[p] < naturalBreaks[2])
                     {
                         //Draw Red Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                     }
 
 
-                    else if (fusion[p] < naturalBreaks[3])
+                    else if (entropy[p] < naturalBreaks[3])
 
                     {
                         //Draw Purple Circles
