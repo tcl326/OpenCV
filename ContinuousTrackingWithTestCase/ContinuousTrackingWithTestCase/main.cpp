@@ -29,44 +29,44 @@ vector<uchar> statusRemove {0, 0, 0, 0, 0, '1', '1', '1', '1', '1', 0, '1', '1',
 vector<uchar> allGoodStatus {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'};
 
 
-vector<double> flatten (vector< vector<double> >& timedData){
-    vector<double> flattenData;
-    for (int i = 0; i < timedData.size(); i++) {
-        for (int j = 0; j < timedData[i].size(); j++) {
-            flattenData.push_back(timedData[i][j]);
-        }
-    }
-    return flattenData;
-}
-
-vector< vector<Point2f> > flatten (vector< vector< vector<Point2f> >>& tracking){
-    vector< vector<Point2f> > flattenData;
-    for (int i = 0; i < tracking.size(); i++) {
-        for (int j = 0; j < tracking[i].size(); j++) {
-            flattenData.push_back(tracking[i][j]);
-        }
-    }
-    return flattenData;
-    
-}
-
-void timedDataValueResize(vector<vector<double>>& timedData, const vector<int>& numberPerTime){
-    for (int i = 0; i < timedData.size(); i++) {
-        timedData[i].resize(numberPerTime[i]);
-    }
-}
-
-void timedDataValueResize(vector<vector<vector<Point2f>>>& timedData, const vector<int>& numberPerTime){
-    for (int i = 0; i < timedData.size(); i++) {
-        timedData[i].resize(numberPerTime[i]);
-    }
-}
-
-void timedDataValueResize(vector<vector<vector<int>>>& timedData, const vector<int>& numberPerTime){
-    for (int i = 0; i < timedData.size(); i++) {
-        timedData[i].resize(numberPerTime[i]);
-    }
-}
+//vector<double> flatten (vector< vector<double> >& timedData){
+//    vector<double> flattenData;
+//    for (int i = 0; i < timedData.size(); i++) {
+//        for (int j = 0; j < timedData[i].size(); j++) {
+//            flattenData.push_back(timedData[i][j]);
+//        }
+//    }
+//    return flattenData;
+//}
+//
+//vector< vector<Point2f> > flatten (vector< vector< vector<Point2f> >>& tracking){
+//    vector< vector<Point2f> > flattenData;
+//    for (int i = 0; i < tracking.size(); i++) {
+//        for (int j = 0; j < tracking[i].size(); j++) {
+//            flattenData.push_back(tracking[i][j]);
+//        }
+//    }
+//    return flattenData;
+//    
+//}
+//
+//void timedDataValueResize(vector<vector<double>>& timedData, const vector<int>& numberPerTime){
+//    for (int i = 0; i < timedData.size(); i++) {
+//        timedData[i].resize(numberPerTime[i]);
+//    }
+//}
+//
+//void timedDataValueResize(vector<vector<vector<Point2f>>>& timedData, const vector<int>& numberPerTime){
+//    for (int i = 0; i < timedData.size(); i++) {
+//        timedData[i].resize(numberPerTime[i]);
+//    }
+//}
+//
+//void timedDataValueResize(vector<vector<vector<int>>>& timedData, const vector<int>& numberPerTime){
+//    for (int i = 0; i < timedData.size(); i++) {
+//        timedData[i].resize(numberPerTime[i]);
+//    }
+//}
 
 void drawBasedOnBreaks(const vector<double>& naturalBreaks, const vector<double>& values, Mat& image, vector< vector<Point2f> > tracking){
     
@@ -126,6 +126,10 @@ void generateMask(cv::Mat& mask, cv::Mat& image, vector<Point2f>& points){
 
 
 void concatenateVectors (vector<Point2f>& a, vector<Point2f>& b){
+    a.insert(std::end(a), std::begin(b), std::end(b));
+}
+
+void concatenateVectors (vector<uchar>& a, vector<uchar>& b){
     a.insert(std::end(a), std::begin(b), std::end(b));
 }
 
@@ -197,19 +201,19 @@ void entropyListUpdate (vector<double>& entropy, vector<double>& lengths, vector
     }
 }
 
-void entropyTimedListUpdate (vector <vector<double> >& entropy, vector< vector<double> >& lengths, vector< vector< vector<Point2f> > >& allTrackers, vector<float>& maxRadius)
-{
-    size_t n = allTrackers.size();
-    for (int i = 0 ; i < n; i++) {
-        entropyListUpdate(entropy[i], lengths[i], allTrackers[i], maxRadius[i]);
-    }
-}
+//void entropyTimedListUpdate (vector <vector<double> >& entropy, vector< vector<double> >& lengths, vector< vector< vector<Point2f> > >& allTrackers, vector<float>& maxRadius)
+//{
+//    size_t n = allTrackers.size();
+//    for (int i = 0 ; i < n; i++) {
+//        entropyListUpdate(entropy[i], lengths[i], allTrackers[i], maxRadius[i]);
+//    }
+//}
 
 //------------------------ Entropy Calculation End --------------------------
 
 //------------------------ Dissimilarity Calculation ------------------------
 
-double euclideanDistance (Point2f point1, Point2f point2){
+double euclideanDistance (const Point2f& point1, const Point2f& point2){
     double distance;
     Point2f p;
     p = point1 - point2;
@@ -217,7 +221,7 @@ double euclideanDistance (Point2f point1, Point2f point2){
     return distance;
 }
 
-Point2f angleDistance (Point2f point1, Point2f point2){
+Point2f angleDistance (const Point2f& point1, const Point2f& point2){
     double distance;
     double angle;
     Point2f angleDistance;
@@ -230,7 +234,7 @@ Point2f angleDistance (Point2f point1, Point2f point2){
     return angleDistance;
 }
 
-vector<int> findNeighbourIndexIterative (int givenTrackerIndex, std::vector<cv::Point2f> points){
+vector<int> findNeighbourIndexIterative (int& givenTrackerIndex, std::vector<cv::Point2f>& points){
     double radius;
     radius = 10.0;
     vector<int> neighbourIndex;
@@ -251,17 +255,17 @@ vector<int> findNeighbourIndexIterative (int givenTrackerIndex, std::vector<cv::
     return neighbourIndex;
 }
 
-void findNeighbourIndexList (vector< vector<int> >& neighbourIndexList, std::vector<cv::Point2f> points){
+void findNeighbourIndexList (vector< vector<int> >& neighbourIndexList, std::vector<cv::Point2f>& points){
     for (int i = 0; i < points.size(); i++){
-        neighbourIndexList[i] = findNeighbourIndexIterative(i, points);
+        neighbourIndexList.push_back(findNeighbourIndexIterative(i, points));
     }
 }
 
-void timedFindNeighbourIndexList (vector<vector< vector<int> >>& neighbourIndexList, std::vector<cv::Point2f> points){
-    for (int i = 0; i < points.size(); i++){
-        neighbourIndexList.back().push_back( findNeighbourIndexIterative(i, points));
-    }
-}
+//void timedFindNeighbourIndexList (vector<vector< vector<int> >>& neighbourIndexList, std::vector<cv::Point2f> points){
+//    for (int i = 0; i < points.size(); i++){
+//        neighbourIndexList.back().push_back( findNeighbourIndexIterative(i, points));
+//    }
+//}
 
 void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int>& removedIndexList){
     bool remove = false;
@@ -287,12 +291,12 @@ void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int>& re
     }
 }
 
-void timedUpdateNeighbour (vector< vector< vector<int> > >& neighbourIndexList,vector< vector<int> >& removedIndexList ){
-    for (int i = 0; i < neighbourIndexList.size(); i++) {
-        updateNeighbour(neighbourIndexList[i], removedIndexList[i]);
-    }
-    
-}
+//void timedUpdateNeighbour (vector< vector< vector<int> > >& neighbourIndexList,vector< vector<int> >& removedIndexList ){
+//    for (int i = 0; i < neighbourIndexList.size(); i++) {
+//        updateNeighbour(neighbourIndexList[i], removedIndexList[i]);
+//    }
+//    
+//}
 
 void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
     
@@ -317,14 +321,14 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
             //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
             distance = euclideanDistance(angleDistance1, angleDistance2);
             
-            /*
+            
              if (not isfinite(distance)){
-             cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
-             for (int k = 0; k < allTrackers[j].size(); k++) {
-             cout << allTrackers[j][k] << endl;
-             }
+//             cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
+//             for (int k = 0; k < allTrackers[j].size(); k++) {
+//             cout << allTrackers[j][k] << endl;
+//             }
              continue;
-             }*/
+             }
             euclideanDis += distance;
         }
         if (euclideanDis == 0) {
@@ -339,12 +343,12 @@ void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::v
     //cout << "]" << endl;
 }
 
-void timedDStarListIterativeUpdate (vector< vector< vector<int> > >& neighbourIndexList, vector< std::vector< std::vector<cv::Point2f> > >& allTrackers, vector<vector<double>>& dStarList){
-    for (int i = 0; i < neighbourIndexList.size(); i++) {
-        dStarListIterativeUpdate(neighbourIndexList[i], allTrackers[i], dStarList[i]);
-    }
-    
-}
+//void timedDStarListIterativeUpdate (vector< vector< vector<int> > >& neighbourIndexList, vector< std::vector< std::vector<cv::Point2f> > >& allTrackers, vector<vector<double>>& dStarList){
+//    for (int i = 0; i < neighbourIndexList.size(); i++) {
+//        dStarListIterativeUpdate(neighbourIndexList[i], allTrackers[i], dStarList[i]);
+//    }
+//    
+//}
 
 
 void mininimumDissimilarityIterative (int givenTrackerIndex , vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity){
@@ -366,11 +370,11 @@ void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allT
     }
 }
 
-void timedUpdateDissimilarityIterative (vector<std::vector< std::vector<cv::Point2f> > >& allTrackers, vector<vector<double>>& dStarList, vector<vector<double>>& minDissimilarity, vector<vector< vector<int> >>& neighbourIndexList){
-    for (int i = 0; i < allTrackers.size(); i++){
-        updateDissimilarityIterative(allTrackers[i], dStarList[i], minDissimilarity[i], neighbourIndexList[i]);
-    }
-}
+//void timedUpdateDissimilarityIterative (vector<std::vector< std::vector<cv::Point2f> > >& allTrackers, vector<vector<double>>& dStarList, vector<vector<double>>& minDissimilarity, vector<vector< vector<int> >>& neighbourIndexList){
+//    for (int i = 0; i < allTrackers.size(); i++){
+//        updateDissimilarityIterative(allTrackers[i], dStarList[i], minDissimilarity[i], neighbourIndexList[i]);
+//    }
+//}
 
 //------------------------ Dissimilarity Calculation End ------------------------
 
@@ -387,11 +391,11 @@ void fusionUpdate (vector<double>& entropyList, vector<double>& dStarList, vecto
     }
 }
 
-void timedFusionUpdate (vector< vector<double> >& entropyList, vector< vector<double> >& dStarList, vector< vector<double> >& fusionList){
-    for (int i = 0; i < entropyList.size(); i++) {
-        fusionUpdate(entropyList[i], dStarList[i], fusionList[i]);
-    }
-}
+//void timedFusionUpdate (vector< vector<double> >& entropyList, vector< vector<double> >& dStarList, vector< vector<double> >& fusionList){
+//    for (int i = 0; i < entropyList.size(); i++) {
+//        fusionUpdate(entropyList[i], dStarList[i], fusionList[i]);
+//    }
+//}
 
 //----------------------- Fusiing Dissimilarity and Entropy End -----------------
 
@@ -422,39 +426,39 @@ void timedFusionUpdate (vector< vector<double> >& entropyList, vector< vector<do
  numPoints = k;
  }
  */
-
-void updateAllTimedAndDraw (vector< vector< vector<Point2f> > >& allTrackers,const vector<uchar>& status, vector<Point2f>& oldPoints, vector<Point2f>& newPoints, vector< vector<int> >& removedIndex, vector< vector<double> >& lengths, int& numPoints, vector<int>& numberPerTime, vector< vector<double> >& dStarList, vector< vector<double> >& minDissimilarity, vector< vector< vector<int> > >& neighbourIndexList){
-    numberPerTime = {};
-    int i = 0;
-    int k = 0;
-    for (int j = 0; j < allTrackers.size(); j++){
-        int m = 0;
-        for (int l = 0; l < allTrackers[j].size(); l++, i++) {
-            if( !status[i] )
-            {
-                removedIndex[j].push_back(l);
-                continue;
-            }
-            
-            oldPoints[k] = oldPoints[i];
-            newPoints[k] = newPoints[i];
-            allTrackers[j][m] = allTrackers[j][l];
-            lengths[j][m] = lengths[j][l];
-            allTrackers[j][m].push_back(newPoints[i]);
-            dStarList[j][m] = dStarList[j][l];
-            minDissimilarity[j][m] = minDissimilarity[j][l];
-            neighbourIndexList[j][m] = neighbourIndexList[j][l];
-            
-            
-            k++;
-            m++;
-        }
-        numberPerTime.push_back(m);
-    }
-    
-    numPoints = k;
-    
-}
+//
+//void updateAllTimedAndDraw (vector< vector< vector<Point2f> > >& allTrackers,const vector<uchar>& status, vector<Point2f>& oldPoints, vector<Point2f>& newPoints, vector< vector<int> >& removedIndex, vector< vector<double> >& lengths, int& numPoints, vector<int>& numberPerTime, vector< vector<double> >& dStarList, vector< vector<double> >& minDissimilarity, vector< vector< vector<int> > >& neighbourIndexList){
+//    numberPerTime = {};
+//    int i = 0;
+//    int k = 0;
+//    for (int j = 0; j < allTrackers.size(); j++){
+//        int m = 0;
+//        for (int l = 0; l < allTrackers[j].size(); l++, i++) {
+//            if( !status[i] )
+//            {
+//                removedIndex[j].push_back(l);
+//                continue;
+//            }
+//            
+//            oldPoints[k] = oldPoints[i];
+//            newPoints[k] = newPoints[i];
+//            allTrackers[j][m] = allTrackers[j][l];
+//            lengths[j][m] = lengths[j][l];
+//            allTrackers[j][m].push_back(newPoints[i]);
+//            dStarList[j][m] = dStarList[j][l];
+//            minDissimilarity[j][m] = minDissimilarity[j][l];
+//            neighbourIndexList[j][m] = neighbourIndexList[j][l];
+//            
+//            
+//            k++;
+//            m++;
+//        }
+//        numberPerTime.push_back(m);
+//    }
+//    
+//    numPoints = k;
+//    
+//}
 
 vector<vector<Point2f>> initTracking (vector<Point2f>& initPoints){
     vector<vector<Point2f>> initTracking(initPoints.size());
@@ -525,11 +529,21 @@ void writeVectorVector (ofstream& writeFile, vector<vector<int>>& vectorVector){
     writeFile << "}";
 }
 
+void updateNeighbourStatus (vector<int>& neighbourStatus, vector<vector<int>>& neighbourIndexList){
+    for (int i = 0; i < neighbourIndexList.size(); i++) {
+        if (neighbourIndexList[i].size() == 0) {
+            neighbourStatus[i] = 0;
+        }
+        else{
+            neighbourStatus[i] = 1;
+        }
+    }
+}
+
 int main(int argc, const char* argv[])
 {
     char* movie;
-    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
-    
+    movie = "/Users/student/Desktop//GP058145.m4v";
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -537,9 +551,9 @@ int main(int argc, const char* argv[])
     Size subPixWinSize(10,10), winSize(31,31);
     
     ofstream report;
-    report.open("report.txt", ios::out);
+    report.open("reportDebug.txt", ios::out);
     
-    const int MAX_COUNT = 500;
+    const int MAX_COUNT = 400;
     bool needToInit = true;
     bool addRemovePt = false;
     
@@ -583,12 +597,13 @@ int main(int argc, const char* argv[])
     
     Mat gray, prevGray, image, mask;
     
-    vector<Point2f> points[2];
+    vector< vector<Point2f> > points1;
+    vector< vector<Point2f> > points0;
     
     vector< vector< vector<Point2f> > > tracking;// (1, vector< vector<Point2f> > (MAX_COUNT, vector<Point2f>()));
     
     vector< vector<double> > lengths;//(1, vector<double> (MAX_COUNT));
-    vector< vector<double> > radius;//(1, vector<double> (MAX_COUNT));
+    //vector< vector<double> > radius;//(1, vector<double> (MAX_COUNT));
     vector< vector<double> > entropy;//(1, vector<double> (MAX_COUNT));
     vector<double> naturalBreaks;
     
@@ -599,13 +614,14 @@ int main(int argc, const char* argv[])
     vector< vector<double> > minDissimilarity;// (1, vector<double> (MAX_COUNT));
     vector< vector<double> > dissimilarity;// (1, vector<double> (MAX_COUNT));
     vector< vector<double> > dStarList;// (1, vector<double> (MAX_COUNT));
-    vector< vector<double> > radiuses;// (1, vector<double> (MAX_COUNT));
+    //vector< vector<double> > radiuses;// (1, vector<double> (MAX_COUNT));
     vector< vector<double> > fusion;// (1, vector<double> (MAX_COUNT));
-    
+    vector<vector<int>> neighbourStatus;
     vector<int> numberPerTime;
-    vector< vector<int> >removedIndex;
+    //vector< vector<int> >removedIndex;
     
-    vector<float> maxRadius(1, 0.0);
+    vector<float> maxRadius;
+    vector<int> count;
     int c = 0;
     int numPoints = 0;
     
@@ -627,19 +643,20 @@ int main(int argc, const char* argv[])
         
         if( needToInit )
         {
-            vector<Point2f> pointsInit;
+            points1.push_back({});
+            //vector<Point2f> pointsInit;
             cout << "Generating NEW POINTS";
-            generateMask(mask, image, points[1]);
+            //generateMask(mask, image, points[1]);
             // Using goodFeaturesToTrack function to automatically find 500 features to track
-            goodFeaturesToTrack(gray, pointsInit, MAX_COUNT-numPoints, 0.01, 10, mask, 3, 0, 0.04);
-            cornerSubPix(gray, pointsInit, subPixWinSize, Size(-1,-1), termcrit);
+            goodFeaturesToTrack(gray, points1.back(), MAX_COUNT-numPoints, 0.01, 10, mask, 3, 0, 0.04);
+            cornerSubPix(gray, points1.back(), subPixWinSize, Size(-1,-1), termcrit);
             
             addRemovePt = false;
             
             if (testing) {
-                pointsInit = storedPoints[c];
+                points1.back() = storedPoints[0];
             }
-            concatenateVectors(points[1], pointsInit);
+            //concatenateVectors(points[1], pointsInit);
             
             
             //neighbourIndexList.resize(points[1].size());
@@ -647,177 +664,254 @@ int main(int argc, const char* argv[])
             //cout << pointsInit.size() << endl;
             //cout << numPoints << endl;
             
-            numPoints = points[1].size();
+            numPoints = points1.back().size();
             
             //cout << numPoints << endl;
             
-            tracking.push_back(initTracking(pointsInit));
+            tracking.push_back(initTracking(points1.back()));
             
-            entropy.push_back(vector<double> (pointsInit.size()));
+            entropy.push_back(vector<double> (points1.back().size()));
             
-            lengths.push_back(vector<double> (pointsInit.size()));
+            lengths.push_back(vector<double> (points1.back().size()));
             
-            dStarList.push_back(vector<double> (pointsInit.size()));
-            minDissimilarity.push_back(vector<double> (pointsInit.size()));
-            //timedDataValueResize(neighbourIndexList,numberPerTime);
-            fusion.push_back(vector<double> (pointsInit.size()));
+            dStarList.push_back(vector<double> (points1.back().size()));
+            minDissimilarity.push_back(vector<double> (points1.back().size()));
+
+            fusion.push_back(vector<double> (points1.back().size()));
+            count.push_back(0);
             
-            removedIndex.push_back(vector<int> {});
+            neighbourStatus.push_back(vector<int> (points1.back().size(), 1));
+            
+            //removedIndex.push_back(vector<int> {});
             neighbourIndexList.push_back(vector< vector<int> > {});
-            timedFindNeighbourIndexList(neighbourIndexList,pointsInit);
+            findNeighbourIndexList(neighbourIndexList.back(),points1.back());
             
+            //radius.push_back(vector<double> (points1.back().size()));
+            maxRadius.push_back(0.0);
             
             //cout << "initiating points" << endl;
             needToInit = false;
             //std::swap(points[1], points[0]);
-            points[0] = {};
+            points0.push_back({});
         }
         
-        if( !points[0].empty() )
-        {
-            vector<uchar> status;
-            vector<float> err;
-            for (int i = 0; i < removedIndex.size(); i++)
+        for (int i = 0; i < tracking.size(); i++) {
+            if( !points0[i].empty() )
             {
-                removedIndex[i] = {};
-            }
-            if(prevGray.empty()){
-                gray.copyTo(prevGray);
-            }
-            
-            calcOpticalFlowPyrLK(prevGray, gray, points[0], points[1], status, err, winSize, 3, termcrit, 0, 0.001);
-            
-            if (testing) {
-                status = allGoodStatus;
+                vector<uchar> status;
+                vector<float> err;
+                vector<int> removedIndex;
+//                for (int i = 0; i < removedIndex.size(); i++)
+//                {
+//                    removedIndex[i] = {};
+//                }
+                if(prevGray.empty()){
+                    gray.copyTo(prevGray);
+                }
                 
-                if (c == 5){
-                    status = statusRemove;
+                calcOpticalFlowPyrLK(prevGray, gray, points0[i], points1[i], status, err, winSize, 3, termcrit, 0, 0.001);
+                
+                if (testing) {
+                    status = allGoodStatus;
+                    
+                    if (c == 5){
+                        status = statusRemove;
+                    }
+                    
+                    
+                    points1[i] = storedPoints[c];
+                    //cout << c;
+                    if (c > 5 && i == 1) {
+                        points1[i] = storedPoints[c-6];
+                        //concatenateVectors(status, allGoodStatus);
+                    }
                 }
                 
                 
-                points[1] = storedPoints[c];
-                //cout << c;
-            }
-            
-            updateAllTimedAndDraw(tracking, status, points[0], points[1], removedIndex, lengths,numPoints, numberPerTime, dStarList, minDissimilarity, neighbourIndexList);
-            
-            points[0].resize(numPoints);
-            points[1].resize(numPoints);
-            timedDataValueResize(tracking,numberPerTime);
-            
-            
-            timedDataValueResize(entropy, numberPerTime);
-            timedDataValueResize(lengths, numberPerTime);
-            timedDataValueResize(minDissimilarity, numberPerTime);
-            timedDataValueResize(fusion, numberPerTime);
-            timedDataValueResize(dStarList, numberPerTime);
-            timedDataValueResize(neighbourIndexList,numberPerTime);
-            
-            timedUpdateNeighbour(neighbourIndexList, removedIndex);
-            timedDStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
-            timedUpdateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
-            entropyTimedListUpdate(entropy, lengths, tracking, maxRadius);
-            timedFusionUpdate(entropy,minDissimilarity,fusion);
-            
+                
+                //updateAllTimedAndDraw(tracking, status, points0[i], points1[i], removedIndex, lengths,numPoints, numberPerTime, dStarList, minDissimilarity, neighbourIndexList);
+                
+                size_t l, k;
+                for( l = k = 0; l < points1[i].size(); l++ )
+                {
+                    
+                    if( !status[l] || !neighbourStatus[i][l] )
+                    {
+                        removedIndex.push_back(l);
+                        continue;
+                    }
+                    points0[i][k] = points0[i][l];
+                    points1[i][k] = points1[i][l];
+                    tracking[i][k] = tracking[i][l];
+                    lengths[i][k] = lengths[i][l];
+                    tracking[i][k].push_back(points1[i][l]);
+                    dStarList[i][k] = dStarList[i][l];
+                    minDissimilarity[i][k] = minDissimilarity[i][l];
+                    neighbourIndexList[i][k] = neighbourIndexList[i][l];
+                    
+                    /*
+                     if (c != 0)
+                     {
+                     lengths[k] += calcLength(tracking[k].rbegin()[0], tracking[k].rbegin()[1]);
+                     entropy[k] = calcEntropyUsingMiniballRadius(lengths[k], tracking[k], maxRadius);
+                     }
+                     */
+                    
+                    k++;
+                }
+                
+                points0[i].resize(k);
+                points1[i].resize(k);
+                tracking[i].resize(k);
+                entropy[i].resize(k);
+                lengths[i].resize(k);
+                dStarList[i].resize(k);
+                minDissimilarity[i].resize(k);
+                neighbourIndexList[i].resize(k);
+                fusion[i].resize(k);
+                updateNeighbour(neighbourIndexList[i], removedIndex);
+                updateNeighbourStatus(neighbourStatus[i], neighbourIndexList[i]);
+                dStarListIterativeUpdate(neighbourIndexList[i], tracking[i], dStarList[i]);
+                updateDissimilarityIterative(tracking[i], dStarList[i], minDissimilarity[i], neighbourIndexList[i]);
+                entropyListUpdate(entropy[i], lengths[i], tracking[i], maxRadius[i]);
+                fusionUpdate(entropy[i],dStarList[i],fusion[i]);
+                count[i]++;
 
-            //cout << numPoints << ": NUMPOINTS";
-            if (numPoints < MAX_COUNT*0.9) {
-                //needToInit = true;
-                cout << "Init Points" << endl;
+
+
+//                points[0].resize(numPoints);
+//                points[1].resize(numPoints);
+//                timedDataValueResize(tracking,numberPerTime);
+//                
+//                
+//                timedDataValueResize(entropy, numberPerTime);
+//                timedDataValueResize(lengths, numberPerTime);
+//                timedDataValueResize(minDissimilarity, numberPerTime);
+//                timedDataValueResize(fusion, numberPerTime);
+//                timedDataValueResize(dStarList, numberPerTime);
+//                timedDataValueResize(neighbourIndexList,numberPerTime);
+//                
+//                timedUpdateNeighbour(neighbourIndexList, removedIndex);
+//                timedDStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
+//                timedUpdateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
+//                entropyTimedListUpdate(entropy, lengths, tracking, maxRadius);
+//                timedFusionUpdate(entropy,minDissimilarity,fusion);
+ 
             }
-            if (testing) {
-                needToInit = false;
-            }
-        }
-        
-        
-        if (c > 3)
-        {
-            for (int i = 0; i < fusion.size(); i++){
-                if (tracking[i][0].size() < 3){
-                    continue;
-                }
+            
+            
+            if (count[i] > 3)
+            {
+                //for (int m = 0; m < fusion.size(); m++){
+//                if (tracking[i][0].size() < 3){
+//                    continue;
+//                }
                 naturalBreaks = JenksNaturalBreak(fusion[i], 4);
                 if (testing) {
                     continue;
                 }
                 drawBasedOnBreaks(naturalBreaks, fusion[i], image, tracking[i]);
+                //}
+                
             }
-            /*
-             naturalBreaks = JenksNaturalBreak(flatten(entropy),4);
-             
-             drawBasedOnBreaks(naturalBreaks, flatten(entropy), image, flatten(tracking));
-             */
             
+
+            
+            if (true) {
+                
+                report << c << endl;
+                
+                report << "points[0]" << endl;
+                writeVector(report, points0[0]);
+                report << endl;
+                
+                report << "points[1]" << endl;
+                writeVector(report, points1[0]);
+                report << endl;
+                
+                report << "t = " << i << endl;
+                
+                report << "lengths" << endl;
+                writeVector(report, lengths[i]);
+                report << endl;
+                
+                report << "entropy" << endl;
+                writeVector(report, entropy[i]);
+                report << endl;
+                
+                report << "dStarList" << endl;
+                writeVector(report, dStarList[i]);
+                report << endl;
+                
+                report << "minDissimilarity" << endl;
+                writeVector(report, minDissimilarity[i]);
+                report << endl;
+                
+                report << "neighbourIndexList" << endl;
+                writeVectorVector(report, neighbourIndexList[i]);
+                report << endl;
+                
+                report << "fusion" << endl;
+                writeVector(report, fusion[i]);
+                report << endl;
+                
+                report << "naturalBreaks" << endl;
+                writeVector (report, naturalBreaks);
+                report << endl;
+                
+                //                    report << "removedIndex" << endl;
+                //                    writeVector(report, removedIndex);
+                //                    report << endl;
+                
+                report << "tracking" << endl;
+                writeVectorVector(report, tracking[i]);
+                report << endl;
+                
+            }
+            
+            
+            std::swap(points1[i], points0[i]);
+        }
+        numPoints = 0;
+        vector<Point2f> allPoints;
+        //cout << numPoints << ": NUMPOINTS";
+        for (int i = 0; i < points0.size(); i++) {
+            numPoints += points0[i].size();
+            concatenateVectors(allPoints, points0[i]);
+        }
+        if (numPoints < MAX_COUNT*0.9) {
+            needToInit = true;
+            cout << "Init Points" << endl;
+            generateMask(mask, image, allPoints);
+        }
+        if (testing) {
+            needToInit = false;
+            if (c == 5){
+                needToInit = true;
+            }
         }
         
+        c++;
+    
+        cv::swap(prevGray, gray);
+        
         imshow("Entropy Based River Segmentation", image);
-        //imshow("Mask", mask);
+        if(!mask.empty()){
+            imshow("Mask", mask);
+        }
+        
         
         char d = (char)waitKey(30);
         if( d == 27 )
             break;
-        
-        if (testing) {
-            report << c << endl;
-            
-            report << "points[0]" << endl;
-            writeVector(report, points[0]);
-            report << endl;
-            
-            report << "points[1]" << endl;
-            writeVector(report, points[1]);
-            report << endl;
-            
-            report << "lengths" << endl;
-            writeVector(report, lengths[0]);
-            report << endl;
-            
-            report << "entropy" << endl;
-            writeVector(report, entropy[0]);
-            report << endl;
-            
-            report << "dStarList" << endl;
-            writeVector(report, dStarList[0]);
-            report << endl;
-            
-            report << "minDissimilarity" << endl;
-            writeVector(report, minDissimilarity[0]);
-            report << endl;
-            
-            report << "neighbourIndexList" << endl;
-            writeVectorVector(report, neighbourIndexList[0]);
-            report << endl;
-            
-            report << "fusion" << endl;
-            writeVector(report, fusion[0]);
-            report << endl;
-            
-            report << "naturalBreaks" << endl;
-            writeVector (report, naturalBreaks);
-            report << endl;
-            
-            report << "removedIndex" << endl;
-            writeVector(report, removedIndex[0]);
-            report << endl;
-            
-            report << "tracking" << endl;
-            writeVectorVector(report, tracking[0]);
-            report << endl;
-        }
-        
-        
-        std::swap(points[1], points[0]);
-        
-
-        cv::swap(prevGray, gray);
         
         if (writeMovie)
         {
             outputVideo.write(image);
         }
         
-        c += 1;
+        
+        
         
     }
     
