@@ -188,7 +188,7 @@ void entropyListUpdate (vector<double>& entropy, vector<double>& lengths, vector
     }
 }
 
-void entropyTimedListUpdate (vector <vector<double> >& entropy, vector< vector<double> >& lengths, vector< vector< vector<Point2f> > >& allTrackers, vector<float>  & maxRadius)
+void entropyTimedListUpdate (vector <vector<double> >& entropy, vector< vector<double> >& lengths, vector< vector< vector<Point2f> > >& allTrackers, vector<float>& maxRadius)
 {
     size_t n = allTrackers.size();
     for (int i = 0 ; i < n; i++) {
