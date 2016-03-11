@@ -337,7 +337,6 @@ int main(int argc, const char* argv[])
     char* movie;
     movie = "/Users/student/Desktop/GP058145.m4v";
     
-    
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -490,7 +489,7 @@ int main(int argc, const char* argv[])
             dStarListIterativeUpdate(neighbourIndexList, tracking, dStarList);
             updateDissimilarityIterative(tracking, dStarList, minDissimilarity, neighbourIndexList);
             entropyListUpdate(entropy, lengths, tracking, maxRadius);
-            fusionUpdate(entropy,minDissimilarity,fusion);
+            fusionUpdate(entropy,dStarList,fusion);
             
             c += 1;
         }
@@ -503,28 +502,28 @@ int main(int argc, const char* argv[])
             
             if (c > 3)
             {
-                naturalBreaks = JenksNaturalBreak(entropy,4);
+                naturalBreaks = JenksNaturalBreak(fusion,4);
                 
-                for (int p = 0; p<entropy.size(); ++p)
+                for (int p = 0; p<fusion.size(); ++p)
                 {
-                    if (entropy[p] < naturalBreaks[0])
+                    if (fusion[p] < naturalBreaks[0])
                     {
                         // Draw Blue Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
                     }
-                    else if (entropy[p] < naturalBreaks[1])
+                    else if (fusion[p] < naturalBreaks[1])
                     {
                         // Draw Green Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
                     }
-                    else if (entropy[p] < naturalBreaks[2])
+                    else if (fusion[p] < naturalBreaks[2])
                     {
                         //Draw Red Circles
                         circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
                     }
 
 
-                    else if (entropy[p] < naturalBreaks[3])
+                    else if (fusion[p] < naturalBreaks[3])
 
                     {
                         //Draw Purple Circles
