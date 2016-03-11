@@ -533,11 +533,8 @@ int main(int argc, const char* argv[])
             
             if (c > 3)
             {
-<<<<<<< HEAD
                 naturalBreaks = JenksNaturalBreak(fusion,4);
-=======
-                naturalBreaks = JenksNaturalBreak(fusion,5);
->>>>>>> generatingTestCase
+
                 
                 for (int p = 0; p<fusion.size(); ++p)
                 {
