@@ -576,11 +576,11 @@ int main(int argc, const char* argv[])
     namedWindow("Mask",1);
     
     VideoWriter outputVideo;
-    bool writeMovie = false; //write the output video to the place defined by filename
+    bool writeMovie = true; //write the output video to the place defined by filename
     if (writeMovie)
     {
         char* filename;
-        filename = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoatOutput.mp4";
+        filename = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoatOutputDone.mp4";
         
         Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
                       (int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
@@ -769,10 +769,11 @@ int main(int argc, const char* argv[])
                 minDissimilarity[i].resize(k);
                 neighbourIndexList[i].resize(k);
                 fusion[i].resize(k);
+                neighbourStatus[i].resize(k);
                 updateNeighbour(neighbourIndexList[i], removedIndex);
                 updateNeighbourStatus(neighbourStatus[i], neighbourIndexList[i]);
                 dStarListIterativeUpdate(neighbourIndexList[i], tracking[i], dStarList[i]);
-                updateDissimilarityIterative(tracking[i], dStarList[i], minDissimilarity[i], neighbourIndexList[i]);
+                //updateDissimilarityIterative(tracking[i], dStarList[i], minDissimilarity[i], neighbourIndexList[i]);
                 entropyListUpdate(entropy[i], lengths[i], tracking[i], maxRadius[i]);
                 fusionUpdate(entropy[i],dStarList[i],fusion[i]);
                 count[i]++;

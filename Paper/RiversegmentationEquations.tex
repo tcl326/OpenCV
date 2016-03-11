@@ -1,0 +1,35 @@
+% Preamble
+% ---
+\documentclass{article}
+
+% Packages
+% ---
+\usepackage{amsmath} % Advanced math typesetting
+\usepackage[utf8]{inputenc} % Unicode support (Umlauts etc.)
+\usepackage[ngerman]{babel} % Change hyphenation rules
+\usepackage{hyperref} % Add a link to your document
+\usepackage{graphicx} % Add pictures to your document
+\usepackage{listings} % Source code formatting and highlighting
+
+\begin{document}
+\begin{align}
+p \equiv (x_0,\ldots,x_n)\\
+L = \sum_{i=0}^{n-1} \| x_i - x_{i-1} \| \\
+H(p) = \frac{\log(\frac{L(p)}{d(p)})}{\log(n-1)}\cdot d_\theta (p)
+\end{align}
+Where $d(p)$ is the diameter of the minimum circle encompassing the trajectory; $d_\theta(p)$ is the scaled version of $d(p)$ so that the range of $d_\theta(\cdot)$ value across the set of trackers, $\{ d_\theta (x), \forall x \in \theta \}$ , is $[0,1]$; and $L(p)$ is defined as the length of the trajectory.
+
+\begin{align}
+a = (\theta , D)\\
+d(p,q) = \sum_{i=0}^{n} \| a_{p,i} , a_{q,i} \| \\
+D(p) = \frac{1}{\Phi (p)} \sum_{\forall q \in \Phi (p)} d (p,q)
+\end{align}
+
+where $D$ is the distance between the current and the previous point and $\theta$ is the absolute value of the angle between the line formed between the two points and the x-axis. $\Phi (p)$ represents the set of trackers composing the neighbourhood of $p$. The neighbours are the 4 immediate neighbours.
+
+\begin{align}
+F(p) = H_\theta(p) \cdot D_\theta(p)
+\end{align}
+The $H_\theta(p)$ and $D_\theta(p)$ are the normalized version of $H_(p)$ and $D_(p)$ respectively. The normalization procedure is the same as defined above.
+
+\end{document}
