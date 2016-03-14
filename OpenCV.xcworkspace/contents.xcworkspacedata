@@ -2,6 +2,27 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:entropyListUpdateOptimization/entropyListUpdateOptimization.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ContinuousTrackingWithTestCase/ContinuousTrackingWithTestCase.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:testCases/testCases.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:valueTimeClass/valueTimeClass.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:continuousTrackingClasses/continuousTrackingClasses.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:usingAndGeneratingMasks/usingAndGeneratingMasks.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:trackerAddition/trackerAddition.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:DissimilarityBetweenTrackers/DissimilarityBetweenTrackers.xcodeproj">
    </FileRef>
    <FileRef
