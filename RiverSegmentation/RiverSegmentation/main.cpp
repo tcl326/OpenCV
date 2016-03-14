@@ -363,12 +363,8 @@ int main(int argc, const char* argv[])
     
 
     char* movie;
-<<<<<<< HEAD
-    movie = "/Users/student/Desktop//GP058145.m4v";
-=======
     movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     
->>>>>>> optimization
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
