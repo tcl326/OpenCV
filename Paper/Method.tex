@@ -1,0 +1,30 @@
+% Preamble
+% ---
+\documentclass{article}
+
+% Packages
+% ---
+\usepackage{amsmath} % Advanced math typesetting
+\usepackage[utf8]{inputenc} % Unicode support (Umlauts etc.)
+\usepackage[ngerman]{babel} % Change hyphenation rules
+\usepackage{hyperref} % Add a link to your document
+\usepackage{graphicx} % Add pictures to your document
+\usepackage{listings} % Source code formatting and highlighting
+
+\begin{document}
+\section{Method}
+This section describes the method used to detect the canal shoreline using both brightness constancy assumption and the dynamic motion of water.
+\subsection{Features Tracking and Initialization}
+A set amount of $k$ trackers is initially initialized using the Shi-Tomasi corner detection algorithm that detects good features to track. Due to the strong corners presented in the canal shorelines, several features will be initiated on the shoreline. Then a pyramidal implementation of Lucas-Kanade optical flow algorithm is used to displace the tracker across the subsequent $n$ frames. Due to the brightness constancy assumption of optical flow, trackers on water would be more likely to lost, leaving the remaining trackers on the canals.
+\subsection{Entropy Calculation} 
+The entropy calculations follows the one proposed by Pedro Santana. The equation of entropy is defined as:
+
+\begin{align}
+p \equiv (x_0,\ldots,x_n)\\
+L = \sum_{i=0}^{n-1} \| x_i - x_{i-1} \| \\
+H(p) = \frac{\log(\frac{L(p)}{d(p)})}{\log(n-1)}\cdot d_\theta (p)
+\end{align}
+Where $d(p)$ is the diameter of the minimum circle encompassing the trajectory; $d_\theta(p)$ is the scaled version of $d(p)$ so that the range of $d_\theta(\cdot)$ value across the set of trackers, $\{ d_\theta (x), \forall x \in \theta \}$ , is $[0,1]$; and $L(p)$ is defined as the length of the trajectory.
+
+A given tracker $p$ is defined as a vector of $n$ positions relative to the t
+\end{document}
