@@ -23,7 +23,7 @@ using namespace std;
 using namespace cv::videostab;
 using namespace std::chrono;
 
-bool testing = false;
+bool testing = true;
 bool profiling = false;
 
 high_resolution_clock::time_point start;
@@ -164,11 +164,11 @@ double calcMinRadius(const vector<Point2f>& points, vector<Point2f>& supportPoin
     
     // return radius
     // support points on the boundary determine the smallest enclosing ball
-    //    std::cout << "Number of support points:\n  ";
-    //    std::cout << mb.nr_support_points() << std::endl;
+//    std::cout << "Number of support points:\n  ";
+//    std::cout << mb.nr_support_points() << std::endl;
     supportPointIndices.resize(mb.nr_support_points());
     
-    //    std::cout << "Support point indices (numbers refer to the input order):\n  ";
+//    std::cout << "Support point indices (numbers refer to the input order):\n  ";
     MB::SupportPointIterator it = mb.support_points_begin();
     PointIterator first = lp.begin();
     for (int i = 0; it != mb.support_points_end(); ++it, i++) {
@@ -195,9 +195,9 @@ double calcMinRadius(const vector<Point2f>& points, vector<Point2f>& supportPoin
     const double* center1 = mb.center();
     center.x = center1[0];
     center.y = center1[1];
-    //    for(int i=0; i<2; ++i, ++center1)
-    //        std::cout << *center1 << " ";
-    //    std::cout << std::endl;
+//    for(int i=0; i<2; ++i, ++center1)
+//        std::cout << *center1 << " ";
+//    std::cout << std::endl;
     radius = sqrt(mb.squared_radius());
     
     return sqrt(mb.squared_radius());
@@ -239,196 +239,10 @@ void entropyListUpdate (vector<double>& entropy, vector<double>& lengths, vector
 }
 
 
+
 //------------------------ Entropy Calculation End --------------------------
 
-//------------------------ Dissimilarity Calculation ------------------------
 
-
-Point2f angleDistance (const Point2f& point1, const Point2f& point2){
-    double distance;
-    double angle;
-    Point2f angleDistance;
-    Point2f p;
-    p = point2 - point1;
-    distance = sqrt( p.x*p.x + p.y*p.y );
-    angle = atan(p.y/p.x);
-    angleDistance.x = angle;
-    angleDistance.y = distance;
-    return angleDistance;
-}
-
-vector<int> findNeighbourIndexIterative (int& givenTrackerIndex, std::vector<cv::Point2f>& points){
-    double radius;
-    radius = 10.0;
-    vector<int> neighbourIndex;
-    size_t n = points.size();
-    while (neighbourIndex.size() < 4) {
-        neighbourIndex = {};
-        for (int i = 0; i < n; i++){
-            if (i == givenTrackerIndex) {
-                continue;
-            }
-            if (radius >= euclideanDistance(points[givenTrackerIndex], points[i])){
-                neighbourIndex.push_back(i);
-            }
-        }
-        radius++;
-    }
-    //cout << radius << endl;
-    return neighbourIndex;
-}
-
-void findNeighbourIndexList (vector< vector<int> >& neighbourIndexList, std::vector<cv::Point2f>& points){
-    for (int i = 0; i < points.size(); i++){
-        neighbourIndexList.push_back(findNeighbourIndexIterative(i, points));
-    }
-}
-
-
-
-void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int>& removedIndexList){
-    bool remove = false;
-    for (int i = 0; i < neighbourIndexList.size(); i++) {
-        for (int j = 0; j < neighbourIndexList[i].size(); j++) {
-            int n = 0;
-            for (int k = 0; k < removedIndexList.size(); k++) {
-                if (neighbourIndexList[i][j] == removedIndexList[k]){
-                    remove = true;
-                }
-                if (neighbourIndexList[i][j] > removedIndexList[k]) {
-                    n++;
-                }
-            }
-            if (remove){
-                neighbourIndexList[i].erase(neighbourIndexList[i].begin()+j);
-                remove = false;
-            }
-            else{
-                neighbourIndexList[i][j] = neighbourIndexList[i][j] - n;
-            }
-        }
-    }
-}
-
-
-
-void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
-    
-    //cout << "[ ";
-    for (int j = 0; j < allTrackers.size(); j++){
-        if (allTrackers[j].size() <= 1){
-            continue;
-        }
-        double euclideanDis = 0.0;
-        size_t n = neighbourIndexList[j].size();
-        if ( n < 2){
-            continue;
-        }
-        for (int i=0; i<n; i++){
-            if (allTrackers[j].size() <= 1 || allTrackers[neighbourIndexList[j][i]].size() <= 1)
-                continue;
-            Point2f angleDistance1;
-            Point2f angleDistance2;
-            double distance;
-            angleDistance1 = angleDistance(allTrackers[j].back(), allTrackers[j].end()[-2]);
-            angleDistance2 = angleDistance(allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]);
-            //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
-            distance = euclideanDistance(angleDistance1, angleDistance2);
-            
-            
-             if (not isfinite(distance)){
-//             cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
-//             for (int k = 0; k < allTrackers[j].size(); k++) {
-//             cout << allTrackers[j][k] << endl;
-//             }
-             continue;
-             }
-            euclideanDis += distance;
-        }
-        if (euclideanDis == 0) {
-            continue;
-        }
-        dStarList[j] += (euclideanDis/n);
-        if (not isfinite(dStarList[j])) {
-            //cout << euclideanDis << "; " << n << "; " << j << endl;
-        }
-        //cout << dStarList[j] << ", ";
-    }
-    //cout << "]" << endl;
-}
-
-
-
-void mininimumDissimilarityIterative (int givenTrackerIndex , vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity){
-    double dissimilarity;
-    size_t n = neighbourIndex.size();
-    //dStarIterativeUpdate(givenTrackerIndex, neighbourIndex, allTrackers, dStarList);
-    minDissimilarity[givenTrackerIndex] = dStarList[neighbourIndex[0]];
-    for (int i=1; i<n; i++){
-        dissimilarity = dStarList[neighbourIndex[i]];
-        if (minDissimilarity[givenTrackerIndex] > dissimilarity){
-            minDissimilarity[givenTrackerIndex] = dissimilarity;
-        }
-    }
-}
-
-void updateDissimilarityIterative (std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity, vector< vector<int> >& neighbourIndexList){
-    for (int i = 0; i < allTrackers.size(); i++){
-        mininimumDissimilarityIterative(i, neighbourIndexList[i], allTrackers, dStarList, minDissimilarity);
-    }
-}
-
-
-//------------------------ Dissimilarity Calculation End ------------------------
-
-//------------------------ Fusing Dissimilarity and Entropy ---------------------
-
-void fusionUpdate (vector<double>& entropyList, vector<double>& dStarList, vector<double>& fusionList){
-    double entropyMax, dStarMax;
-    entropyMax = *max_element(entropyList.begin(), entropyList.end());
-    dStarMax = *max_element(dStarList.begin(), dStarList.end());
-    for (int i = 0; i < entropyList.size(); i++){
-        fusionList[i] = entropyList[i]/entropyMax * dStarList[i]/dStarMax;
-        //cout << entropyList[i] << "; " << entropyMax << "; " << dStarList[i] << "; "<< dStarMax << endl;
-        
-    }
-}
-
-//----------------------- Fusiing Dissimilarity and Entropy End -----------------
-
-
-//void updateAllTimedAndDraw (vector< vector< vector<Point2f> > >& allTrackers,const vector<uchar>& status, vector<Point2f>& oldPoints, vector<Point2f>& newPoints, vector< vector<int> >& removedIndex, vector< vector<double> >& lengths, int& numPoints, vector<int>& numberPerTime, vector< vector<double> >& dStarList, vector< vector<double> >& minDissimilarity, vector< vector< vector<int> > >& neighbourIndexList){
-//    numberPerTime = {};
-//    int i = 0;
-//    int k = 0;
-//    for (int j = 0; j < allTrackers.size(); j++){
-//        int m = 0;
-//        for (int l = 0; l < allTrackers[j].size(); l++, i++) {
-//            if( !status[i] )
-//            {
-//                removedIndex[j].push_back(l);
-//                continue;
-//            }
-//            
-//            oldPoints[k] = oldPoints[i];
-//            newPoints[k] = newPoints[i];
-//            allTrackers[j][m] = allTrackers[j][l];
-//            lengths[j][m] = lengths[j][l];
-//            allTrackers[j][m].push_back(newPoints[i]);
-//            dStarList[j][m] = dStarList[j][l];
-//            minDissimilarity[j][m] = minDissimilarity[j][l];
-//            neighbourIndexList[j][m] = neighbourIndexList[j][l];
-//            
-//            
-//            k++;
-//            m++;
-//        }
-//        numberPerTime.push_back(m);
-//    }
-//    
-//    numPoints = k;
-//    
-//}
 
 vector<vector<Point2f>> initTracking (vector<Point2f>& initPoints){
     vector<vector<Point2f>> initTracking(initPoints.size());
@@ -499,16 +313,7 @@ void writeVectorVector (ofstream& writeFile, vector<vector<int>>& vectorVector){
     writeFile << "}";
 }
 
-void updateNeighbourStatus (vector<int>& neighbourStatus, vector<vector<int>>& neighbourIndexList){
-    for (int i = 0; i < neighbourIndexList.size(); i++) {
-        if (neighbourIndexList[i].size() == 0) {
-            neighbourStatus[i] = 0;
-        }
-        else{
-            neighbourStatus[i] = 1;
-        }
-    }
-}
+
 
 int main(int argc, const char* argv[])
 {
@@ -521,10 +326,10 @@ int main(int argc, const char* argv[])
     Size subPixWinSize(10,10), winSize(31,31);
     
     if (testing) {
-        report.open("reportDebug.txt", ios::out);
+        report.open("reportDebug1.txt", ios::out);
     }
     if (profiling) {
-        report.open("reportProfiling.txt", ios::out);
+        report.open("reportProfiling1.txt", ios::out);
     }
     
     const int MAX_COUNT = 400;
@@ -567,8 +372,6 @@ int main(int argc, const char* argv[])
         
     }
     
-    
-    
     Mat gray, prevGray, image, mask;
     
     vector< vector<Point2f> > points1;
@@ -576,6 +379,7 @@ int main(int argc, const char* argv[])
     
     vector< vector< vector<Point2f> > > tracking;// (1, vector< vector<Point2f> > (MAX_COUNT, vector<Point2f>()));
     
+
     vector<double> naturalBreaks;
     
     //----- Entropy Values ------
@@ -588,18 +392,12 @@ int main(int argc, const char* argv[])
     
     //----- End Entropy Values ----
     
-    
     //Variables for Dissimilarity
-    
-    vector< vector< vector<int> > > neighbourIndexList;//(1, vector< vector<int> >(MAX_COUNT));
-    vector< vector<double> > minDissimilarity;// (1, vector<double> (MAX_COUNT));
-    vector< vector<double> > dissimilarity;// (1, vector<double> (MAX_COUNT));
-    vector< vector<double> > dStarList;// (1, vector<double> (MAX_COUNT));
-    //vector< vector<double> > radiuses;// (1, vector<double> (MAX_COUNT));
-    vector< vector<double> > fusion;// (1, vector<double> (MAX_COUNT));
-    vector<vector<int>> neighbourStatus;
+
     vector<int> numberPerTime;
     //vector< vector<int> >removedIndex;
+    
+
     vector<int> count;
     int c = 0;
     int numPoints = 0;
@@ -666,23 +464,13 @@ int main(int argc, const char* argv[])
             
             //----- End Initializing Entropy Values -------
             
-            
-            dStarList.push_back(vector<double> (points1.back().size()));
-            minDissimilarity.push_back(vector<double> (points1.back().size()));
-
-            fusion.push_back(vector<double> (points1.back().size()));
             count.push_back(0);
-            
-            neighbourStatus.push_back(vector<int> (points1.back().size(), 1));
-            
-            //removedIndex.push_back(vector<int> {});
-            neighbourIndexList.push_back(vector< vector<int> > {});
-            findNeighbourIndexList(neighbourIndexList.back(),points1.back());
-            
             //cout << "initiating points" << endl;
             needToInit = false;
             //std::swap(points[1], points[0]);
             points0.push_back({});
+            
+            
         }
         
         for (int i = 0; i < tracking.size(); i++) {
@@ -691,10 +479,7 @@ int main(int argc, const char* argv[])
                 vector<uchar> status;
                 vector<float> err;
                 vector<int> removedIndex;
-//                for (int i = 0; i < removedIndex.size(); i++)
-//                {
-//                    removedIndex[i] = {};
-//                }
+
                 if(prevGray.empty()){
                     gray.copyTo(prevGray);
                 }
@@ -718,14 +503,11 @@ int main(int argc, const char* argv[])
                 }
                 
                 
-                
-                //updateAllTimedAndDraw(tracking, status, points0[i], points1[i], removedIndex, lengths,numPoints, numberPerTime, dStarList, minDissimilarity, neighbourIndexList);
-                
                 size_t l, k;
                 for( l = k = 0; l < points1[i].size(); l++ )
                 {
                     
-                    if( !status[l] || !neighbourStatus[i][l] )
+                    if( !status[l] )
                     {
                         removedIndex.push_back(l);
                         continue;
@@ -734,9 +516,7 @@ int main(int argc, const char* argv[])
                     points1[i][k] = points1[i][l];
                     tracking[i][k] = tracking[i][l];
                     tracking[i][k].push_back(points1[i][l]);
-                    dStarList[i][k] = dStarList[i][l];
-                    minDissimilarity[i][k] = minDissimilarity[i][l];
-                    neighbourIndexList[i][k] = neighbourIndexList[i][l];
+                    
                     
                     //---- Entropy Values ---
                     lengths[i][k] = lengths[i][l];
@@ -752,11 +532,6 @@ int main(int argc, const char* argv[])
                 points0[i].resize(k);
                 points1[i].resize(k);
                 tracking[i].resize(k);
-                dStarList[i].resize(k);
-                minDissimilarity[i].resize(k);
-                neighbourIndexList[i].resize(k);
-                fusion[i].resize(k);
-                neighbourStatus[i].resize(k);
                 
                 //---- Entropy Values ---
                 
@@ -769,59 +544,31 @@ int main(int argc, const char* argv[])
                 //---- End Entropy Values
                 
                 start = std::chrono::high_resolution_clock::now();
-                updateNeighbour(neighbourIndexList[i], removedIndex);
-                ending = std::chrono::high_resolution_clock::now();
-                timeSpan = duration_cast<duration<double>>(ending - start);
-                if (profiling) {
-                    report << "Running time of updateNeighbour :" << timeSpan.count() << endl;
-                }
-                start = std::chrono::high_resolution_clock::now();
-                updateNeighbourStatus(neighbourStatus[i], neighbourIndexList[i]);
-                ending = std::chrono::high_resolution_clock::now();
-                timeSpan = duration_cast<duration<double>>(ending - start);
-                if (profiling) {
-                    report << "Running time of updateNeighbourStatus :" << timeSpan.count() << endl;
-                }
-                start = std::chrono::high_resolution_clock::now();
-                dStarListIterativeUpdate(neighbourIndexList[i], tracking[i], dStarList[i]);
-                ending = std::chrono::high_resolution_clock::now();
-                timeSpan = duration_cast<duration<double>>(ending - start);
-                if (profiling) {
-                    report << "Running time of dStarListIterativeUpdate :" << timeSpan.count() << endl;
-                }
-                start = std::chrono::high_resolution_clock::now();
                 entropyListUpdate(entropy[i], lengths[i], tracking[i], maxRadius[i], supportPoints[i],radius[i],center[i]);
                 ending = std::chrono::high_resolution_clock::now();
                 timeSpan = duration_cast<duration<double>>(ending - start);
                 if (profiling) {
                     report << "Running time of entropyListUpdate :" << timeSpan.count() << endl;
                 }
-                start = std::chrono::high_resolution_clock::now();
-                fusionUpdate(entropy[i],dStarList[i],fusion[i]);
-                ending = std::chrono::high_resolution_clock::now();
-                timeSpan = duration_cast<duration<double>>(ending - start);
-                if (profiling) {
-                    report << "Running time of fusionUpdate :" << timeSpan.count() << endl;
-                }
-                start = std::chrono::high_resolution_clock::now();
-                count[i]++;
 
- 
+                count[i]++;
+                
+                
             }
             
             
             if (count[i] > 3)
             {
-
-                naturalBreaks = JenksNaturalBreak(fusion[i], 4);
+                
+                naturalBreaks = JenksNaturalBreak(entropy[i], 4);
                 if (testing) {
                     continue;
                 }
-                drawBasedOnBreaks(naturalBreaks, fusion[i], image, tracking[i]);
+                drawBasedOnBreaks(naturalBreaks, entropy[i], image, tracking[i]);
                 
             }
             
-
+            
             
             if (testing) {
                 
@@ -845,21 +592,6 @@ int main(int argc, const char* argv[])
                 writeVector(report, entropy[i]);
                 report << endl;
                 
-                report << "dStarList" << endl;
-                writeVector(report, dStarList[i]);
-                report << endl;
-                
-                report << "minDissimilarity" << endl;
-                writeVector(report, minDissimilarity[i]);
-                report << endl;
-                
-                report << "neighbourIndexList" << endl;
-                writeVectorVector(report, neighbourIndexList[i]);
-                report << endl;
-                
-                report << "fusion" << endl;
-                writeVector(report, fusion[i]);
-                report << endl;
                 
                 report << "naturalBreaks" << endl;
                 writeVector (report, naturalBreaks);
@@ -871,6 +603,18 @@ int main(int argc, const char* argv[])
                 
                 report << "tracking" << endl;
                 writeVectorVector(report, tracking[i]);
+                report << endl;
+                
+                report << "SupportPoints" << endl;
+                writeVectorVector(report, supportPoints[i]);
+                report << endl;
+                
+                report << "Radius" << endl;
+                writeVector(report, radius[i]);
+                report << endl;
+                
+                report << "Center" << endl;
+                writeVector(report, center[i]);
                 report << endl;
                 
             }
@@ -898,7 +642,7 @@ int main(int argc, const char* argv[])
         }
         
         c++;
-    
+        
         cv::swap(prevGray, gray);
         
         imshow("Entropy Based River Segmentation", image);
