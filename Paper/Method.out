@@ -1,3 +1,9 @@
-\BOOKMARK [1][-]{section.1}{Method}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Features Tracking and Initialization}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Entropy Calculation}{section.1}% 3
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related Work}{}% 2
+\BOOKMARK [1][-]{section.3}{Method}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Features Tracking and Initialization}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Entropy Calculation}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Dissimilarity Calculation}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.4}{Fusing trackers values}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.5}{Finding Threshold}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.6}{Finding Shoreline}{section.3}% 9

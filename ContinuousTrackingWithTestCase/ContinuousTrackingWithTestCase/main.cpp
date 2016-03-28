@@ -24,7 +24,8 @@ using namespace cv::videostab;
 using namespace std::chrono;
 
 bool testing = false;
-bool profiling = false;
+bool profiling = true;
+bool writeReport = false;
 
 high_resolution_clock::time_point start;
 high_resolution_clock::time_point ending;
@@ -41,24 +42,24 @@ vector<uchar> allGoodStatus {'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '
 
 
 
-void drawBasedOnBreaks(const vector<double>& naturalBreaks, const vector<double>& values, Mat& image, vector< vector<Point2f> > tracking){
+void drawBasedOnBreaks(const vector<double>& naturalBreaks, const vector<double>& values, Mat& image, vector< vector<Point2f> >& tracking, vector<Point2f>& initialPoints){
     
     for (int p = 0; p<values.size(); ++p)
     {
         if (values[p] < naturalBreaks[0])
         {
             // Draw Blue Circles
-            circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,0), -1, 8);
+            circle( image, tracking[p].rbegin()[0]+initialPoints[p], 3, Scalar(255,0,0), -1, 8);
         }
         else if (values[p] < naturalBreaks[1])
         {
             // Draw Green Circles
-            circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,0), -1, 8);
+            circle( image, tracking[p].rbegin()[0]+initialPoints[p], 3, Scalar(0,255,0), -1, 8);
         }
         else if (values[p] < naturalBreaks[2])
         {
             //Draw Red Circles
-            circle( image, tracking[p].rbegin()[0], 3, Scalar(0,0,255), -1, 8);
+            circle( image, tracking[p].rbegin()[0]+initialPoints[p], 3, Scalar(0,0,255), -1, 8);
         }
         
         
@@ -66,12 +67,12 @@ void drawBasedOnBreaks(const vector<double>& naturalBreaks, const vector<double>
             
         {
             //Draw Purple Circles
-            circle( image, tracking[p].rbegin()[0], 3, Scalar(255,0,255), -1, 8);
+            circle( image, tracking[p].rbegin()[0]+initialPoints[p], 3, Scalar(255,0,255), -1, 8);
         }
         else
         {
             // Draw Yellow Circles
-            circle( image, tracking[p].rbegin()[0], 3, Scalar(0,255,255), -1, 8);
+            circle( image, tracking[p].rbegin()[0]+initialPoints[p], 3, Scalar(0,255,255), -1, 8);
             
         }
         
@@ -312,51 +313,66 @@ void updateNeighbour (vector< vector<int> >& neighbourIndexList, vector<int>& re
 
 
 
+//void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
+//    
+//    //cout << "[ ";
+//    for (int j = 0; j < allTrackers.size(); j++){
+//        if (allTrackers[j].size() <= 1){
+//            continue;
+//        }
+//        double euclideanDis = 0.0;
+//        size_t n = neighbourIndexList[j].size();
+//        if ( n < 2){
+//            continue;
+//        }
+//        for (int i=0; i<n; i++){
+//            if (allTrackers[j].size() <= 1 || allTrackers[neighbourIndexList[j][i]].size() <= 1)
+//                continue;
+//            Point2f angleDistance1;
+//            Point2f angleDistance2;
+//            double distance;
+//            angleDistance1 = angleDistance(allTrackers[j].back(), allTrackers[j].end()[-2]);
+//            angleDistance2 = angleDistance(allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]);
+//            //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
+//            distance = euclideanDistance(angleDistance1, angleDistance2);
+//            
+//            
+//             if (not isfinite(distance)){
+////             cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
+////             for (int k = 0; k < allTrackers[j].size(); k++) {
+////             cout << allTrackers[j][k] << endl;
+////             }
+//             continue;
+//             }
+//            euclideanDis += distance;
+//        }
+//        if (euclideanDis == 0) {
+//            continue;
+//        }
+//        dStarList[j] += (euclideanDis/n);
+//        if (not isfinite(dStarList[j])) {
+//            //cout << euclideanDis << "; " << n << "; " << j << endl;
+//        }
+//        //cout << dStarList[j] << ", ";
+//    }
+//    //cout << "]" << endl;
+//}
+
 void dStarListIterativeUpdate (vector< vector<int> >& neighbourIndexList, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList){
-    
-    //cout << "[ ";
-    for (int j = 0; j < allTrackers.size(); j++){
-        if (allTrackers[j].size() <= 1){
+    for (int i = 0; i < allTrackers.size(); i++) {
+        if (allTrackers[i].size() <= 1){
             continue;
         }
         double euclideanDis = 0.0;
-        size_t n = neighbourIndexList[j].size();
-        if ( n < 2){
-            continue;
-        }
-        for (int i=0; i<n; i++){
-            if (allTrackers[j].size() <= 1 || allTrackers[neighbourIndexList[j][i]].size() <= 1)
+        for (int j = 0; j < neighbourIndexList[i].size(); j++) {
+            if (allTrackers[neighbourIndexList[i][j]].size() <= 1) {
                 continue;
-            Point2f angleDistance1;
-            Point2f angleDistance2;
-            double distance;
-            angleDistance1 = angleDistance(allTrackers[j].back(), allTrackers[j].end()[-2]);
-            angleDistance2 = angleDistance(allTrackers[neighbourIndexList[j][i]].back(), allTrackers[neighbourIndexList[j][i]].end()[-2]);
-            //euclideanDis += euclideanDistance(allTrackers[j].back(), allTrackers[neighbourIndexList[j][i]].back());
-            distance = euclideanDistance(angleDistance1, angleDistance2);
-            
-            
-             if (not isfinite(distance)){
-//             cout << euclideanDis << "; " << allTrackers[j].back() << "; " << allTrackers[j].end()[-2] << "; " << allTrackers[neighbourIndexList[j][i]].back() << "; " <<allTrackers[neighbourIndexList[j][i]].end()[-2] << "; " << angleDistance1 << "; " << angleDistance2 << endl;
-//             for (int k = 0; k < allTrackers[j].size(); k++) {
-//             cout << allTrackers[j][k] << endl;
-//             }
-             continue;
-             }
-            euclideanDis += distance;
+            }
+            euclideanDis += euclideanDistance(allTrackers[i].back(), allTrackers[neighbourIndexList[i][j]].back());
         }
-        if (euclideanDis == 0) {
-            continue;
-        }
-        dStarList[j] += (euclideanDis/n);
-        if (not isfinite(dStarList[j])) {
-            //cout << euclideanDis << "; " << n << "; " << j << endl;
-        }
-        //cout << dStarList[j] << ", ";
+        dStarList[i] += (euclideanDis/neighbourIndexList[i].size());
     }
-    //cout << "]" << endl;
 }
-
 
 
 void mininimumDissimilarityIterative (int givenTrackerIndex , vector<int>& neighbourIndex, std::vector< std::vector<cv::Point2f> >& allTrackers, vector<double>& dStarList, vector<double>& minDissimilarity){
@@ -513,7 +529,8 @@ void updateNeighbourStatus (vector<int>& neighbourStatus, vector<vector<int>>& n
 int main(int argc, const char* argv[])
 {
     char* movie;
-    movie = "/Users/student/Desktop//GP058145.m4v";
+    movie = "/Users/student/Desktop/OpenCV/RiverSegmentation/RiverSegmentation/TrimmedVideo.mp4";
+    //OpenCV/RiverSegmentation/RiverSegmentation/TrimmedVideo.mp4";
     //GP058145.m4v";
     //OpenCV/RiverSegmentation/RiverSegmentation/MovieBoat.mp4";
     VideoCapture cap;
@@ -524,7 +541,10 @@ int main(int argc, const char* argv[])
         report.open("reportDebug.txt", ios::out);
     }
     if (profiling) {
-        report.open("reportProfiling.txt", ios::out);
+        report.open("reportProfiling1.txt", ios::out);
+    }
+    if (writeReport) {
+        report.open("whyCrash.txt", ios::out);
     }
     
     const int MAX_COUNT = 400;
@@ -571,12 +591,15 @@ int main(int argc, const char* argv[])
     
     Mat gray, prevGray, image, mask;
     
+    //---- Tracking Values ----
+    
     vector< vector<Point2f> > points1;
     vector< vector<Point2f> > points0;
+    vector< vector< vector<Point2f> > > tracking;
+    vector< vector<Point2f> > initialPoints;
     
-    vector< vector< vector<Point2f> > > tracking;// (1, vector< vector<Point2f> > (MAX_COUNT, vector<Point2f>()));
+    //---- End Tracking Values
     
-    vector<double> naturalBreaks;
     
     //----- Entropy Values ------
     vector< vector<double> > lengths;//(1, vector<double> (MAX_COUNT));
@@ -585,21 +608,27 @@ int main(int argc, const char* argv[])
     vector< vector<double> > radius;
     vector< vector<Point2f> > center;
     vector<float> maxRadius;
+    vector<double> maxEntropy;
     
     //----- End Entropy Values ----
     
     
-    //Variables for Dissimilarity
+    //----- Dissimilarity Values ---
     
     vector< vector< vector<int> > > neighbourIndexList;//(1, vector< vector<int> >(MAX_COUNT));
     vector< vector<double> > minDissimilarity;// (1, vector<double> (MAX_COUNT));
     vector< vector<double> > dissimilarity;// (1, vector<double> (MAX_COUNT));
     vector< vector<double> > dStarList;// (1, vector<double> (MAX_COUNT));
-    //vector< vector<double> > radiuses;// (1, vector<double> (MAX_COUNT));
-    vector< vector<double> > fusion;// (1, vector<double> (MAX_COUNT));
     vector<vector<int>> neighbourStatus;
-    vector<int> numberPerTime;
-    //vector< vector<int> >removedIndex;
+    vector<double> maxDissimilarity;
+    
+    //----- End Dissimilarity Values ---
+    
+    
+    vector< vector<double> > fusion;// (1, vector<double> (MAX_COUNT));
+    
+    vector<double> naturalBreaks;
+
     vector<int> count;
     int c = 0;
     int numPoints = 0;
@@ -627,7 +656,7 @@ int main(int argc, const char* argv[])
             cout << "Generating NEW POINTS";
             //generateMask(mask, image, points[1]);
             // Using goodFeaturesToTrack function to automatically find 500 features to track
-            goodFeaturesToTrack(gray, points1.back(), MAX_COUNT-numPoints, 0.01, 10, mask, 3, 0, 0.04);
+            goodFeaturesToTrack(gray, points1.back(), MAX_COUNT-numPoints, 0.00001, 10, mask, 3, 0, 0.04);
             cornerSubPix(gray, points1.back(), subPixWinSize, Size(-1,-1), termcrit);
             
             addRemovePt = false;
@@ -635,19 +664,12 @@ int main(int argc, const char* argv[])
             if (testing) {
                 points1.back() = storedPoints[0];
             }
-            //concatenateVectors(points[1], pointsInit);
-            
-            
-            //neighbourIndexList.resize(points[1].size());
-            
-            //cout << pointsInit.size() << endl;
-            //cout << numPoints << endl;
             
             numPoints = points1.back().size();
             
-            //cout << numPoints << endl;
+            initialPoints.push_back(points1.back());
             
-            tracking.push_back(initTracking(points1.back()));
+            tracking.push_back(vector< vector<Point2f> > (points1.back().size(),{{0,0}}));//initTracking(points1.back()));
             
             //----- Initializing Entropy Values --------
             
@@ -666,18 +688,23 @@ int main(int argc, const char* argv[])
             
             //----- End Initializing Entropy Values -------
             
+            //----- Initializing Dissimiilarity Values ----
+            
             
             dStarList.push_back(vector<double> (points1.back().size()));
+            
             minDissimilarity.push_back(vector<double> (points1.back().size()));
 
-            fusion.push_back(vector<double> (points1.back().size()));
-            count.push_back(0);
-            
             neighbourStatus.push_back(vector<int> (points1.back().size(), 1));
             
-            //removedIndex.push_back(vector<int> {});
             neighbourIndexList.push_back(vector< vector<int> > {});
+            
             findNeighbourIndexList(neighbourIndexList.back(),points1.back());
+            
+            //---- End Initializing Dissimiilarity Values --
+            
+            fusion.push_back(vector<double> (points1.back().size()));
+            count.push_back(0);
             
             //cout << "initiating points" << endl;
             needToInit = false;
@@ -691,16 +718,18 @@ int main(int argc, const char* argv[])
                 vector<uchar> status;
                 vector<float> err;
                 vector<int> removedIndex;
-//                for (int i = 0; i < removedIndex.size(); i++)
-//                {
-//                    removedIndex[i] = {};
-//                }
+
                 if(prevGray.empty()){
                     gray.copyTo(prevGray);
                 }
                 
+                start = std::chrono::high_resolution_clock::now();
                 calcOpticalFlowPyrLK(prevGray, gray, points0[i], points1[i], status, err, winSize, 3, termcrit, 0, 0.001);
-                
+                ending = std::chrono::high_resolution_clock::now();
+                timeSpan = duration_cast<duration<double>>(ending - start);
+                if (profiling) {
+                    report << "Running time of calcOpticalFlow :" << timeSpan.count() << endl;
+                }
                 if (testing) {
                     status = allGoodStatus;
                     
@@ -718,9 +747,6 @@ int main(int argc, const char* argv[])
                 }
                 
                 
-                
-                //updateAllTimedAndDraw(tracking, status, points0[i], points1[i], removedIndex, lengths,numPoints, numberPerTime, dStarList, minDissimilarity, neighbourIndexList);
-                
                 size_t l, k;
                 for( l = k = 0; l < points1[i].size(); l++ )
                 {
@@ -732,11 +758,15 @@ int main(int argc, const char* argv[])
                     }
                     points0[i][k] = points0[i][l];
                     points1[i][k] = points1[i][l];
+                    initialPoints[i][k] = initialPoints[i][l];
                     tracking[i][k] = tracking[i][l];
-                    tracking[i][k].push_back(points1[i][l]);
+                    tracking[i][k].push_back(points1[i][l]-initialPoints[i][l]);
+                    
+                    //---- Dissimilarity Values---
                     dStarList[i][k] = dStarList[i][l];
                     minDissimilarity[i][k] = minDissimilarity[i][l];
                     neighbourIndexList[i][k] = neighbourIndexList[i][l];
+                    //---- End Dissimilarity Values---
                     
                     //---- Entropy Values ---
                     lengths[i][k] = lengths[i][l];
@@ -749,14 +779,19 @@ int main(int argc, const char* argv[])
                     k++;
                 }
                 
+                initialPoints[i].resize(k);
                 points0[i].resize(k);
                 points1[i].resize(k);
                 tracking[i].resize(k);
+                
+                //---- Dissimilarity Values --
                 dStarList[i].resize(k);
                 minDissimilarity[i].resize(k);
                 neighbourIndexList[i].resize(k);
                 fusion[i].resize(k);
                 neighbourStatus[i].resize(k);
+                
+                //---- End Dissimilarity Values --
                 
                 //---- Entropy Values ---
                 
@@ -789,6 +824,15 @@ int main(int argc, const char* argv[])
                 if (profiling) {
                     report << "Running time of dStarListIterativeUpdate :" << timeSpan.count() << endl;
                 }
+                
+//                start = std::chrono::high_resolution_clock::now();
+//                updateDissimilarityIterative(tracking[i], dStarList[i], minDissimilarity[i], neighbourIndexList[i]);//(neighbourIndexList[i], tracking[i], dStarList[i]);
+//                ending = std::chrono::high_resolution_clock::now();
+//                timeSpan = duration_cast<duration<double>>(ending - start);
+//                if (profiling) {
+//                    report << "Running time of updateDissimilarityIterative :" << timeSpan.count() << endl;
+//                }
+                
                 start = std::chrono::high_resolution_clock::now();
                 entropyListUpdate(entropy[i], lengths[i], tracking[i], maxRadius[i], supportPoints[i],radius[i],center[i]);
                 ending = std::chrono::high_resolution_clock::now();
@@ -817,13 +861,13 @@ int main(int argc, const char* argv[])
                 if (testing) {
                     continue;
                 }
-                drawBasedOnBreaks(naturalBreaks, fusion[i], image, tracking[i]);
+                drawBasedOnBreaks(naturalBreaks, fusion[i], image, tracking[i], initialPoints[i]);
                 
             }
             
 
             
-            if (testing) {
+            if (testing || writeReport) {
                 
                 report << c << endl;
                 
@@ -849,9 +893,9 @@ int main(int argc, const char* argv[])
                 writeVector(report, dStarList[i]);
                 report << endl;
                 
-                report << "minDissimilarity" << endl;
-                writeVector(report, minDissimilarity[i]);
-                report << endl;
+//                report << "minDissimilarity" << endl;
+//                writeVector(report, minDissimilarity[i]);
+//                report << endl;
                 
                 report << "neighbourIndexList" << endl;
                 writeVectorVector(report, neighbourIndexList[i]);
@@ -869,9 +913,9 @@ int main(int argc, const char* argv[])
                 //                    writeVector(report, removedIndex);
                 //                    report << endl;
                 
-                report << "tracking" << endl;
-                writeVectorVector(report, tracking[i]);
-                report << endl;
+//                report << "tracking" << endl;
+//                writeVectorVector(report, tracking[i]);
+//                report << endl;
                 
             }
             
@@ -902,9 +946,9 @@ int main(int argc, const char* argv[])
         cv::swap(prevGray, gray);
         
         imshow("Entropy Based River Segmentation", image);
-        if(!mask.empty()){
-            imshow("Mask", mask);
-        }
+//        if(!mask.empty()){
+//            imshow("Mask", mask);
+//        }
         
         
         char d = (char)waitKey(30);
