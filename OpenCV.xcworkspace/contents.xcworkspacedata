@@ -2,6 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:LawMask/LawMask.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:segmentObject/segmentObject.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:WaterShedAlgorithm/WaterShedAlgorithm.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ShoreLineIdentification/ShoreLineIdentification.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:entropyListUpdateOptimization/entropyListUpdateOptimization.xcodeproj">
    </FileRef>
    <FileRef
