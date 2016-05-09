@@ -317,7 +317,10 @@ void ClassifyJenksFisherFromValueCountPairs(LimitsContainer& breaksArray, SizeT 
     breaksArray.resize(k);
     SizeT m  = vcpc.size();
     
-    assert(k <= m); // PRECONDITION
+    if(! (k <= m)){
+        breaksArray = {std::numeric_limits<double>::quiet_NaN()};
+        return;
+    }; // PRECONDITION
     
     if (!k)
         return;

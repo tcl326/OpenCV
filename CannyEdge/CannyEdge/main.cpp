@@ -1,67 +1,65 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
-#include <stdlib.h>
+
 #include <stdio.h>
 
 using namespace cv;
-
-/// Global variables
-
-Mat src, src_gray;
-Mat dst, detected_edges;
+using namespace std;
 
 int edgeThresh = 1;
-int lowThreshold;
-int const max_lowThreshold = 200;
-int ratio = 3;
-int kernel_size = 3;
-char* window_name = "Edge Map";
+Mat image, gray, edge, cedge;
 
-/**
- * @function CannyThreshold
- * @brief Trackbar callback - Canny thresholds input with a ratio 1:3
- */
-void CannyThreshold(int, void*)
+// define a trackbar callback
+static void onTrackbar(int, void*)
 {
-    /// Reduce noise with a kernel 3x3
-    blur( src_gray, detected_edges, Size(3,3) );
+    blur(gray, edge, Size(3,3));
     
-    /// Canny detector
-    Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
+    // Run the edge detector on grayscale
+    Canny(edge, edge, edgeThresh, edgeThresh*3, 3);
+    cedge = Scalar::all(0);
     
-    /// Using Canny's output as a mask, we display our result
-    dst = Scalar::all(0);
-    
-    src.copyTo( dst, detected_edges);
-    imshow( window_name, detected_edges );
+    image.copyTo(cedge, edge);
+    imshow("Edge map", cedge);
 }
 
-
-/** @function main */
-int main( int argc, char** argv )
+static void help()
 {
-    /// Load an image
-    src = imread( "/Users/student/Desktop/CV Canal/frame.jpg"   );
+    printf("\nThis sample demonstrates Canny edge detection\n"
+           "Call:\n"
+           "    /.edge [image_name -- Default is fruits.jpg]\n\n");
+}
+
+const char* keys =
+{
+    "{1| |fruits.jpg|input image name}"
+};
+
+int main( int argc, const char** argv )
+{
+    help();
     
-    if( !src.data )
-    { return -1; }
+    char* filename = "/Users/student/Desktop/OpenCV/testForShoreline/frame000.jpg";
     
-    /// Create a matrix of the same type and size as src (for dst)
-    dst.create( src.size(), src.type() );
+    image = imread(filename, 1);
+//    if(image.empty())
+//    {
+//        printf("Cannot read image file: %s\n", filename.c_str());
+//        help();
+//        return -1;
+//    }
+    cedge.create(image.size(), image.type());
+    cvtColor(image, gray, COLOR_BGR2GRAY);
     
-    /// Convert the image to grayscale
-    cvtColor( src, src_gray, CV_BGR2GRAY );
+    // Create a window
+    namedWindow("Edge map", 1);
     
-    /// Create a window
-    namedWindow( window_name, CV_WINDOW_AUTOSIZE );
+    // create a toolbar
+    createTrackbar("Canny threshold", "Edge map", &edgeThresh, 100, onTrackbar);
     
-    /// Create a Trackbar for user to enter threshold
-    createTrackbar( "Min Threshold:", window_name, &lowThreshold, max_lowThreshold, CannyThreshold );
+    // Show the image
+    onTrackbar(0, 0);
     
-    /// Show the image
-    CannyThreshold(0, 0);
-    
-    /// Wait until user exit program by pressing a key
+    // Wait for a key stroke; the same function arranges events processing
     waitKey(0);
     
     return 0;
