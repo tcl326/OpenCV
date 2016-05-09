@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <math.h>
 
 using namespace cv;
 using namespace std;
@@ -137,6 +138,8 @@ void generateColorTable (vector<Vec3b>& colorTable, const int& numberOfColors){
     }
 }
 
+// Generate the 9 Law's Masks and store them in a vector, more about Law Masks be read from here https://courses.cs.washington.edu/courses/cse455/09wi/Lects/lect12.pdf
+
 void generateLawMasks (vector<Mat>& LawMasks){
     Mat L5, E5, S5, R5, W5;
     
@@ -195,116 +198,105 @@ void generateLawMasks (vector<Mat>& LawMasks){
     LawMasks.push_back(E5E5);
     LawMasks.push_back(R5R5);
 }
-
-/** @function main */
-int main ()
-{
-    /// Declare variables
-    vector<Mat> dsts;
+// Following the algorithm outlined in https://courses.cs.washington.edu/courses/cse455/09wi/Lects/lect12.pdf, the Law Mask texture Energy of the input greyImage is computed and stored in a vector.
+void generateLawMaskTextureEnergy (const vector<Mat>&  lawMasks, const Mat& greyImage, vector<Mat>& textureEnergy){
     
-    Mat dst, integral, colorSrc, frame, smallFrame;
+    Mat averageIntensity, intensityRemoved;
     
-    Mat kernel;
-    Point anchor;
     double delta;
     int ddepth;
     int kernel_size;
-    char* window_name = "filter2D Demo";
+    Point anchor;
     
-    int c;
-    
-    // Law's Mask
-    
-    int frameNumber = 0;
-    
-    vector<Mat> kernels;
-    
-    generateLawMasks(kernels);
-    
-    getFrame(frame, frameNumber);
-    
-    //pyrDown( frame, smallFrame, Size( frame.cols/2, frame.rows/2 ));
-    
-    //imshow("frame", frame);
-    
-    cv::Mat greyMat, colorMat, averageIntensity, intensityRemoved;
-    cv::cvtColor(frame, greyMat, CV_BGR2GRAY);
-
-    //src = imread("/Users/student/Desktop/OpenCV/testForShoreline/frame000.jpg",CV_LOAD_IMAGE_GRAYSCALE);
-    
-    if( !frame.data )
-    { return -1; }
-    
-    /// Create window
-    namedWindow( window_name, CV_WINDOW_AUTOSIZE );
-    
-    /// Initialize arguments for the filter
     anchor = Point( -1, -1 );
     delta = 0;
     ddepth = -1;
     
-    boxFilter(greyMat, averageIntensity, CV_8UC1, Size (15,15), anchor);
+    //Compute the average intensity of the image in a 15 by 15 neighbour and remove it from the image
     
-//    imshow("greyMat", greyMat);
-//    
-//    imshow("averageInte", averageIntensity);
+    boxFilter(greyImage, averageIntensity, CV_8UC1, Size (15,15), anchor);
     
-    intensityRemoved = greyMat - averageIntensity;
+    intensityRemoved = greyImage - averageIntensity;
     
-    //imshow("removed", intensityRemoved);
-    
-    // Loop - Will filter the image with different kernel sizes each 0.5 seconds
     int ind = 0;
-    while( ind < kernels.size() )
+    while( ind < lawMasks.size() )
     {
-        Mat result, sumResult;
-        c = waitKey(1000);
+        Mat result, sumResult, lawMask;
         
-        /// Update kernel size for a normalized box filter
-        kernel = kernels[ind];
+        lawMask = lawMasks[ind];
         
-        filter2D(intensityRemoved, result, CV_32F , kernel, anchor, delta, BORDER_DEFAULT );
+        //Convolute the individual Law Mask with the image with intensity removed
+        filter2D(intensityRemoved, result, CV_32F , lawMask, anchor, delta, BORDER_DEFAULT );
+        
+        //Sum the convolute value in a 15 by 15 neighbour
         boxFilter(result, sumResult, CV_32F, Size (15,15), anchor, false, BORDER_DEFAULT);
-        //cout << integral;
-        imshow( window_name, sumResult );
-        dsts.push_back(sumResult);
+
+        textureEnergy.push_back(sumResult);
         ind++;
     }
-//
-    vector<Mat> bgrChannels, maxGBRBRG, c1c2c3;
+}
+
+// create a mat vector that contains the c1, c2, and c3 color space of the BGR image
+// c1c2c3 is an illumination (shadow) invariant colorspace based in this paper http://digital.csic.es/bitstream/10261/30345/1/Robust%20color%20contour.pdf
+void convertBGRtoC1C2C3 (const Mat& bgrColorImage, vector<Mat>& c1c2c3){
+    vector<Mat> bgrChannels, maxGBRBRG;
     
-    split(frame, bgrChannels);
+    split(bgrColorImage, bgrChannels);
     
-    //Mat maxGB, maxRB, maxRG;
+    //Create maxGB, maxRB, maxRG lookup matrix;
     maxGBRBRG.push_back(max(bgrChannels[1], bgrChannels[0]));//, maxGB);
     maxGBRBRG.push_back(max(bgrChannels[2], bgrChannels[0]));//, maxRB);
     maxGBRBRG.push_back(max(bgrChannels[2], bgrChannels[1]));//, maxRG);
-    
-    
-//    //Mat c1(maxGB.rows,maxGB.cols,CV_32FC1), c2(maxRB.rows,maxRB.cols,CV_32FC1), c3(maxRG.rows,maxRG.cols,CV_32FC1);
     
     MatIterator_<float> it, end;
     MatIterator_<uchar> maxIt, maxEnd, frameIt, frameEnd;
     
     for (int i = 0; i < bgrChannels.size(); i++) {
         Mat max = maxGBRBRG[i];
-        Mat c1(max.rows,max.cols,CV_32FC1);
-        it = c1.begin<float>();
+        Mat c(max.rows,max.cols,CV_32FC1);
+        it = c.begin<float>();
         maxIt = max.begin<uchar>();
         frameIt = bgrChannels[i].begin<uchar>();
-        for (; it != c1.end<float>(); ) {
-            *it = fastAtan2(float(*frameIt),float( *maxIt))*255/360;
-            //cout << *it << endl;
+        
+        for (; it != c.end<float>(); ) {
+            
+            *it = atan2(float(*frameIt),float( *maxIt));
             it++;
             maxIt++;
             frameIt++;
+            
         }
-//        imshow("c1c2c3", c1);
-//        imshow("bgr", bgrChannels[i]);
-//        c = waitKey(1000);
-        dsts.push_back(c1);
+        c1c2c3.push_back(c);
     }
+}
+
+int main ()
+{
+    /// Declare variables
+    vector<Mat> dsts;
+    Mat dst, integral, colorSrc, frame, smallFrame;
+    int frameNumber = 0;
+    vector<Mat> kernels;
     
+    //get a single frame
+    getFrame(frame, frameNumber);
+    
+    //create Law Masks
+    generateLawMasks(kernels);
+    
+    cv::Mat greyMat, colorMat;
+    cv::cvtColor(frame, greyMat, CV_BGR2GRAY);
+    
+    if( !frame.data )
+    { return -1; }
+    
+    //calculate the Texture Energy using the grey image
+    generateLawMaskTextureEnergy(kernels,greyMat,dsts);
+    
+    //convert the image from BGR colorspace to c1c2c3 colorspace
+    convertBGRtoC1C2C3(frame, dsts);
+    
+    // create a matrix that contains only the height (row) info of the matrix.
     Mat height(greyMat.rows,greyMat.cols,CV_32FC1);
     MatIterator_<float> heightIt;
     
@@ -316,6 +308,7 @@ int main ()
     }
     dst.push_back(height);
     
+    //reshape the matrix to be used by the openCV kmeans function
     vector<Mat> points;
     
     for (int i = 0; i < dsts.size(); i++) {
@@ -328,10 +321,13 @@ int main ()
     
     hconcat(points, sample);
     
+    //kmeans segmentation
     cv::TermCriteria criteria {cv::TermCriteria::COUNT, 100, 1};
     
-    kmeans(sample, 10, labels, criteria, 1, KMEANS_RANDOM_CENTERS, centers);
+    kmeans(sample, 4, labels, criteria, 1, KMEANS_RANDOM_CENTERS, centers);
     
+    
+    //demonstrate the result
     vector<Vec3b> colorTable;
     generateColorTable(colorTable, 32);
     
